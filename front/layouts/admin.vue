@@ -1,26 +1,11 @@
 <script lang="ts" setup>
 import MenuLink from "@/components/MenuLink.vue";
-import { useUserStore } from '~/store/user';
 
 const isHiding = ref(false);
-const userStore = useUserStore();
-
-async function redirectLogin() {
-  try {
-    await userStore.logout();
-    navigateTo('/login')
-  } catch (error) {
-    console.error('Ошибка при выходе:', error);
-  }
-}
 
 const hiding = () => {
   isHiding.value = !isHiding.value;
 }
-
-defineExpose({
-  redirectLogin
-});
 </script>
 
 <template>
@@ -28,17 +13,11 @@ defineExpose({
     <div class="section__block">
       <div class="section__block--personal">
         <div v-if="!isHiding">
-          <p 
-            v-if="userStore.user"
-            class="section__block--name" 
-          >
-            {{ userStore.user.firstName }} {{ userStore.user.lastName }}
+          <p class="section__block--name">
+            Кирилл Андреевич
           </p>
-          <p 
-            v-if="userStore.user"
-            class="section__block--email" 
-          >
-            {{ userStore.user.email }}
+          <p class="section__block--email">
+            директор
           </p>
         </div>
         <SvgoOpenSlider
@@ -57,10 +36,7 @@ defineExpose({
       <MenuLink :isHiding="isHiding" />
     </div>
     <div class="section__logout">
-      <div
-        class="section__logout--exit"
-        @click="redirectLogin"
-      >
+      <div class="section__logout--exit">
         <SvgoLogout
           class="section__logout--icon"
           alt="Выйти"
@@ -69,14 +45,9 @@ defineExpose({
           v-if="!isHiding"
           class="section__logout-exit-text"
         >
-          Logout
+          Выйти
         </span>
       </div>
-      <img
-        v-if="!isHiding"
-        src="../assets/icons/logo.svg"
-        alt="logo"
-      />
     </div>
   </section>
   <slot />
@@ -84,9 +55,10 @@ defineExpose({
 
 <style scoped lang="scss">
 @use '@/assets/scss/_fonts' as *;
+
 .section {
   width: 334px;
-  background-color: #051125;
+  background-color: rgba(41, 3, 6, 1);
   position: fixed;
   top: 0;
   height: 100vh;
@@ -126,8 +98,8 @@ defineExpose({
   }
 
   &__block--icon {
-    position: relative;
-    left: 50px;
+    position: absolute;
+    right: 10px;
     width: 20px;
     height: 20px;
     cursor: pointer;

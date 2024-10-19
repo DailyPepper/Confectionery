@@ -1,19 +1,20 @@
 <template>
   <div class="container">
     <StyleBlock>
-      <h1 class="welcome__title">Hi,, welcome to Amonic
+      <h1 class="welcome__title">Hi,, welcome to confectionery
         Airlines</h1>
       <div class="welcome__info">
-        <p class="welcome__info-time">Time spent on system: 00:19:03</p>
-        <p class="welcome__info-crashes">Number of crashes: 1</p>
+        <p class="welcome__info-time">Time 9:41</p>
       </div>
     </StyleBlock>
   </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'admin',
+});
 </script>
-
 
 <style scoped lang="scss">
 @use '@/assets/scss/_fonts' as *;
