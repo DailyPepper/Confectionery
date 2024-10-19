@@ -83,7 +83,7 @@
           </li>
           <li class="section__sub-menu-item">
             <NuxtLink
-              to="/"
+              to="/accounting/ingredients_decorations"
               class="section__sub-menu-link"
             >
             Ингредиенты и украшения

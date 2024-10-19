@@ -58,6 +58,7 @@ const hiding = () => {
 
 .section {
   width: 334px;
+  z-index: 10;
   background-color: rgba(41, 3, 6, 1);
   position: fixed;
   top: 0;
