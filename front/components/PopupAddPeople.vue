@@ -103,7 +103,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, email, sameAs, minLength } from '@vuelidate/validators';
 
@@ -144,27 +143,27 @@ const handleSubmit = async () => {
     v$.value.$touch();
     if (v$.value.$invalid) return;
 
-    try {
-        const response = await fetch('http://localhost:8080/users', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData.value),
-        });
+    // try {
+    //     const response = await fetch('http://localhost:8080/users', {
+    //         method: 'POST',
+    //         credentials: 'include',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(formData.value),
+    //     });
 
-        if (response.ok) {
-            emit('userAdded'); // Уведомляем родительский компонент о добавлении пользователя
-            emit('update:show', false); // Закрываем модальное окно
-            resetForm(); // Сбрасываем форму
-        } else {
-            // Обработка ошибки ответа, если это необходимо
-            console.error('Error:', await response.text());
-        }
-    } catch (error) {
-        console.error('Error submitting form:', error);
-    }
+    //     if (response.ok) {
+    //         emit('userAdded'); // Уведомляем родительский компонент о добавлении пользователя
+    //         emit('update:show', false); // Закрываем модальное окно
+    //         resetForm(); // Сбрасываем форму
+    //     } else {
+    //         // Обработка ошибки ответа, если это необходимо
+    //         console.error('Error:', await response.text());
+    //     }
+    // } catch (error) {
+    //     console.error('Error submitting form:', error);
+    // }
 };
 
 const resetForm = () => {
@@ -191,24 +190,24 @@ const cancelPopup = () => {
 };
 
 const fetchOffices = async () => {
-    try {
-        const response = await fetch('http://localhost:8080/offices', {
-            method: 'GET',
-            credentials: 'include',
-        });
+    // try {
+    //     const response = await fetch('http://localhost:8080/offices', {
+    //         method: 'GET',
+    //         credentials: 'include',
+    //     });
 
-        if (!response.ok) {
-            const errorData = await response.text();
-            console.error(`Error: ${response.status} - ${errorData}`);
-            throw new Error(`Error: ${response.status}`);
-        }
+    //     if (!response.ok) {
+    //         const errorData = await response.text();
+    //         console.error(`Error: ${response.status} - ${errorData}`);
+    //         throw new Error(`Error: ${response.status}`);
+    //     }
 
-        const data = await response.json();
-        offices.value = data;
-        console.log('Office data:', data);
-    } catch (error) {
-        console.error('Error fetching offices:', error);
-    }
+    //     const data = await response.json();
+    //     offices.value = data;
+    //     console.log('Office data:', data);
+    // } catch (error) {
+    //     console.error('Error fetching offices:', error);
+    // }
 };
 
 onMounted(() => {

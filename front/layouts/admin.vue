@@ -118,7 +118,7 @@ const hiding = () => {
   &__block--name {
     color: #fdfeff;
     font-size: 20px;
-    word-spacing: 10px;
+    word-spacing: 5px;
     justify-content: center;
     display: flex;
   }
