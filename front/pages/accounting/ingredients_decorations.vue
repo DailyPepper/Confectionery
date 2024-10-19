@@ -26,6 +26,10 @@
         v-model:show="isPopupVisible"
         @update:show="isPopupVisible = false"
     />
+    <PopupDelete
+        v-model:show="isPopupDeleteVisible"
+        @update:show="isPopupDeleteVisible = false"
+    />
 </template>
 
 <script setup lang="ts">
