@@ -23,7 +23,9 @@ definePageMeta({
     <div class="result-section">
     <button class="result-btn" @click="openModal">
         <SvgoPlus class="header__nav--icon" alt="Add user" />
-        Добавить инструмент
+        <span>
+            Добавить инструмент
+        </span>
     </button>
       <table>
         <thead>
@@ -136,11 +138,15 @@ definePageMeta({
 .result-btn{
     width: 280px;
     height: 64px;
-    background-color: rgba(255, 139, 22, 1);
+    background-color: rgb(255, 139, 22);
     color: #fff;
     font-size: 16px;
     font-weight: 400;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 .result-btn:hover{
     background-color: rgba(254, 216, 127, 1);

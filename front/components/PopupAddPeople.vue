@@ -2,49 +2,58 @@
     <div v-if="show" class="fixed" @click.self="closePopup">
         <div class="popup">
             <SvgoClose class="popup__close" @click="closePopup" />
-            <h2 class="popup__title">Add User</h2>
-            <form class="popup__form" @submit.prevent="handleSubmit">
+            <h2 class="popup__title">
+                Добавить инструмент
+            </h2>
+            <form class="popup__form" @submit.prevent="handleSubmit" method="post">
                 <section class="popup__input">
-                    <label class="popup__input--label" for="email">Email address:</label>
+                    <label class="popup__input--label" for="email">
+                        Наименование:
+                    </label>
                     <InputWithLabel
                         id="email"
                         v-model="formData.email"
                         :class="{ 'popup__input--error': v$.email.$error }"
                         type="text"
-                        placeholder="Enter email address"
+                        placeholder="Введите наименование"
                     />
-                    <p v-if="v$.email.$error" class="popup__input--message">(Invalid email)</p>
+                    <p v-if="v$.email.$error" class="popup__input--message">
+                        (Invalid Наименование)
+                    </p>
                 </section>
 
                 <section class="popup__input">
-                    <label class="popup__input--label" for="firstName">First name:</label>
-                    <InputWithLabel
-                        id="firstName"
+                    <label id="description" class="popup__input--label" for="firstName">Описание:</label>
+                    <textarea 
                         v-model="formData.first_name"
-                        :class="{ 'popup__input--error': v$.first_name.$error }"
+                        name="description" 
+                        id="description" 
                         type="text"
-                        placeholder="Enter first name"
+                        placeholder="Введите описание"
+                        class="popup__input--textarea"
                     />
-                    <p v-if="v$.first_name.$error" class="popup__input--message">(First name is required)</p>
+                    <p v-if="v$.first_name.$error" class="popup__input--message">
+                        (First name is required)
+                    </p>
                 </section>
 
                 <section class="popup__input">
-                    <label class="popup__input--label" for="lastName">Last name:</label>
-                    <InputWithLabel
-                        id="lastName"
-                        v-model="formData.last_name"
-                        :class="{ 'popup__input--error': v$.last_name.$error }"
-                        type="text"
-                        placeholder="Enter last name"
-                    />
-                    <p v-if="v$.last_name.$error" class="popup__input--message">(Last name is required)</p>
-                </section>
-
-                <section class="popup__input">
-                    <label class="popup__input--label" for="office">Office:</label>
+                    <label class="popup__input--label" for="lastName">Тип инструмента:</label>
                     <div class="popup__select">
-                        <select id="office" v-model="formData.office_id">
-                            <option value="">Select Office</option>
+                        <select 
+                            v-model="formData.office_id" i
+                            d="office" 
+                            required 
+                            class="popup__select--block"
+                        >
+                            <option 
+                                value="" 
+                                disabled 
+                                selected 
+                                hidden
+                            >
+                                Выберите тип инструмента
+                            </option>
                             <option 
                                 v-for="office in offices" 
                                 :key="office.id" 
@@ -54,48 +63,81 @@
                                 {{ office.title }}
                             </option>
                         </select>
-                        <SvgoSelect class="popup__select--icon" />
                     </div>
+                    <p v-if="v$.last_name.$error" class="popup__input--message">
+                        (тип инструмента is required)
+                    </p>
+                </section>
+
+                <section class="popup__input">
+                    <label class="popup__input--label" for="office">Степень износа:</label>
+                    <div class="popup__select">
+                        <select 
+                            id="office" 
+                            required 
+                            v-model="formData.office_id" 
+                            class="popup__select--block"
+                        >
+                            <option 
+                                value="" 
+                                disabled 
+                                selected 
+                                hidden
+                            >
+                                Выберите степень износа
+                            </option>
+                            <option 
+                                v-for="office in offices" 
+                                :key="office.id" 
+                                :value="office.id" 
+                                class="header__select--option"
+                            >
+                                {{ office.title }}
+                            </option>
+                        </select>
+                    </div>
+                    <p v-if="v$.last_name.$error" class="popup__input--message">(Степень износа is required)</p>
                 </section>
                 
                 <section class="popup__input">
-                    <label class="popup__input--label" for="birthdate">Birthdate:</label>
+                    <label class="popup__input--label" for="birthdate">Поставщик:</label>
+                    <InputWithLabel
+                        id="password"
+                        v-model="formData.password"
+                        :class="{ 'popup__input--error': v$.password.$error }"
+                        type="text"
+                        placeholder="Введите поставщика"
+                    />
+                    <p v-if="v$.birthdate.$error" class="popup__input--message">(Birthdate is required)</p>
+                </section>
+
+                <section class="popup__input">
+                    <label class="popup__input--label" for="password">Дата приобретения:</label>
                     <InputWithLabel
                         id="birthdate"
                         v-model="formData.birthdate"
                         :class="{ 'popup__input--error': v$.birthdate.$error }"
                         type="date"
                     />
-                    <p v-if="v$.birthdate.$error" class="popup__input--message">(Birthdate is required)</p>
-                </section>
-
-                <section class="popup__input">
-                    <label class="popup__input--label" for="password">Password:</label>
-                    <InputWithLabel
-                        id="password"
-                        v-model="formData.password"
-                        :class="{ 'popup__input--error': v$.password.$error }"
-                        type="password"
-                        placeholder="Enter password"
-                    />
                     <p v-if="v$.password.$error" class="popup__input--message">(Password is required)</p>
                 </section>
 
                 <section class="popup__input">
-                    <label class="popup__input--label" for="repeatPassword">Repeat the password:</label>
+                    <label class="popup__input--label" for="repeatPassword">Количество в наличии:</label>
                     <InputWithLabel
                         id="repeatPassword"
                         v-model="formData.repeat_password"
                         :class="{ 'popup__input--error': v$.repeat_password.$error }"
-                        type="password"
-                        placeholder="Repeat password"
+                        type="number"
+                        placeholder="Введите число"
                     />
                     <p v-if="v$.repeat_password.$error" class="popup__input--message">(Passwords do not match)</p>
                 </section>
 
                 <section class="popup__buttons">
-                    <button type="submit" class="popup__buttons--save">Save</button>
-                    <button type="button" class="popup__buttons--cancel" @click="cancelPopup">Cancel</button>
+                    <button type="submit" class="popup__buttons--save">
+                        Создать
+                    </button>
                 </section>
             </form>
         </div>
@@ -235,7 +277,7 @@ onMounted(() => {
     position: absolute;
     z-index: 100;
     width: 1110px;
-    height: 1270px;
+    height: 1230px;
     margin-top: 50px;
     padding: 80px 100px;
     border-radius: 20px;
@@ -273,9 +315,22 @@ onMounted(() => {
 
         &--label {
             @include verdana-font(20px, 400);
-            color: rgba(5, 17, 37, 1);
         }
-
+        &--textarea{
+            font-family: Verdana, sans-serif;
+            font-weight: 400;
+            line-height: normal;
+            font-size: 16px;
+            width: 100%;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+            border: 2px solid #BBB5AD;
+            outline: none;
+            margin-top: 10px;
+            padding: 30px 15px;
+            resize: none;
+        }
         input,
         select {
             font-size: 16px !important;
@@ -310,18 +365,24 @@ onMounted(() => {
         align-items: center;
 
         select {
-            @include verdana-font(16px, 400);
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
+            font-family: Verdana, sans-serif;
+            font-weight: 400;
+            line-height: normal;
             width: 100%;
-            border: none;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            border: 2px solid #BBB5AD;
             outline: none;
-            background-color: #f7f8fa;
-            border-radius: 20px;
+            margin-top: 10px;
+            height: 70px;
+            background-image: url(/_nuxt/assets/icons/cursor.svg);
+            background-repeat: no-repeat;
+            background-position: right 24px center;
+            appearance: none;
 
             &:hover {
                 background-color: #c1d9fd;
+                transition: 0.7s;
             }
         }
 
@@ -344,19 +405,21 @@ onMounted(() => {
             @include verdana-font(20px, 400);
             width: 100%;
             padding: 20px 30px;
-            background-color: #0066cc;
+            background-color: rgba(255, 139, 22, 1);
             color: rgba(253, 254, 255, 1);
             border: none;
-            border-radius: 10px;
+            border-radius: 20px;
             cursor: pointer;
             transition: all 0.5s ease;
 
             &:hover {
-                background-color: #f77d20;
+                background-color: rgba(254, 216, 127, 1);
+                color: rgba(0, 0, 0, 1);
             }
 
             &:active {
-                background-color: #0e4771;
+                background-color: rgba(241, 95, 108, 1);
+                color: rgba(255, 255, 255, 1)
             }
         }
 
