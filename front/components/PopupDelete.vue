@@ -12,13 +12,24 @@
 
             <div class="popup__title">
                 <p class="popup__title--item">Вы уверенны, что хотите удалить</p>
-                <p class="popup__title--item">Яйцо второй категории (45-55 гр.)</p>
+                <ul
+                    v-if="items"
+                    style="list-style: none;"
+                >
+                    <li
+                        class="popup__title--item"
+                        v-for="(item, index) in items.split(', ')"
+                        :key="index"
+                    >
+                        {{ item }}
+                    </li>
+                </ul>
             </div>
 
             <button
                 type="button"
                 class="popup__delete"
-                @click="handleDelete"
+                @click="confirmDelete"
             >
                 <SvgoDelete
                     class="popup__delete--icon"
@@ -34,13 +45,15 @@
 <script lang="ts" setup>
 defineProps({
     show: Boolean,
+    items: String,
 });
 
-const emit = defineEmits(['update:show', 'userAdded']);
+const emit = defineEmits(['update:show', 'confirm-delete']);
 
-const handleDelete = () => {
-    emit('update:show', false)
-}
+const confirmDelete = () => {
+    emit('confirm-delete');
+    emit('update:show', false);
+};
 
 const closePopup = () => {
     emit('update:show', false);
