@@ -36,7 +36,7 @@
             <div class="filter-grid__item">
                 <button
                     class="filter-grid__button"
-                    @click="handleSearch"
+                    @click="toggleAddPopup"
                 >
                     Найти
                 </button>
@@ -115,6 +115,10 @@
         v-model:show="isPopupVisible"
         @update:show="isPopupVisible = false"
     />
+    <PopupAddOrder
+        v-model:show="isPopupAddVisible"
+        @update:show="isPopupAddVisible = false"
+    />
     <PopupDelete
         v-model:show="isPopupDeleteVisible"
         @confirm-delete="deleteSelectedItems"
@@ -135,6 +139,7 @@ const outboundDate = ref('');
 const selectedItems = ref<TableItem[]>([]);
 const isPopupVisible = ref(false);
 const isPopupDeleteVisible = ref(false);
+const isPopupAddVisible = ref(false);
 const selectedItemName = ref('');
 
 const types = [
@@ -160,6 +165,10 @@ const handleSearch = () => {
 
 const togglePopup = () => {
     isPopupVisible.value = !isPopupVisible.value;
+};
+
+const toggleAddPopup = () => {
+    isPopupAddVisible.value = !isPopupAddVisible.value;
 };
 
 const confirmDeleteItems = () => {
