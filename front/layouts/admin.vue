@@ -1,44 +1,29 @@
 <script lang="ts" setup>
 import MenuLink from "@/components/MenuLink.vue";
-import { useUserStore } from '~/store/user';
 
 const isHiding = ref(false);
-const userStore = useUserStore();
 
-async function redirectLogin() {
-  try {
-    await userStore.logout();
-    navigateTo('/login')
-  } catch (error) {
-    console.error('Ошибка при выходе:', error);
-  }
-}
 
 const hiding = () => {
   isHiding.value = !isHiding.value;
 }
 
-defineExpose({
-  redirectLogin
-});
 </script>
 
 <template>
   <section :class="['section', { collapsed: isHiding }]">
     <div class="section__block">
       <div class="section__block--personal">
-        <div v-if="!isHiding">
+        <div>
           <p 
-            v-if="userStore.user"
             class="section__block--name" 
           >
-            {{ userStore.user.firstName }} {{ userStore.user.lastName }}
+            User
           </p>
           <p 
-            v-if="userStore.user"
             class="section__block--email" 
           >
-            {{ userStore.user.email }}
+          User
           </p>
         </div>
         <SvgoOpenSlider
@@ -59,7 +44,6 @@ defineExpose({
     <div class="section__logout">
       <div
         class="section__logout--exit"
-        @click="redirectLogin"
       >
         <SvgoLogout
           class="section__logout--icon"
@@ -111,12 +95,12 @@ defineExpose({
   }
 
   &__block--name {
-    @include verdana-font(20px, 700);
+    @include Comic(20px, 700);
     color: #fdfeff;
   }
 
   &_block-email {
-    @include verdana-font(14px, 400);
+    @include Comic(14px, 400);
     color: #fdfeff;
   }
 
@@ -139,7 +123,7 @@ defineExpose({
     cursor: pointer;
 
     &-manage {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
     }
   }
 
@@ -152,7 +136,7 @@ defineExpose({
   }
 
   &__block--email {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     color: #fdfeff;
     font-size: 13px;
@@ -161,7 +145,7 @@ defineExpose({
   }
 
   &__logout {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     padding-bottom: 150px;
     display: flex;

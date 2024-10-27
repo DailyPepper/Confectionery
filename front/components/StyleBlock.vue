@@ -19,14 +19,14 @@
 }
 
 .welcome {
-  width: 1000px;
+  width: 1200px;
   margin: 40px auto;
   border-radius: 20px;
   padding: 30px;
   background-color: #fff;
-  box-shadow: 0px 9px 18.2px 0px #0000001c;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border: 1px solid #948F89;
 }
 </style>

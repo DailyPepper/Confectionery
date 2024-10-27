@@ -131,13 +131,13 @@ defineExpose({
   }
 
   &__block--name {
-    @include verdana-font(20px, 700);
+    @include Comic(20px, 700);
     
     color: #fdfeff;
   }
   
   &__block--email {
-    @include verdana-font(14px, 400);
+    @include Comic(14px, 400);
 
     color: #fdfeff;
   }
@@ -168,7 +168,7 @@ defineExpose({
   }
 
   &_logout {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     padding-bottom: 150px;
     display: flex;

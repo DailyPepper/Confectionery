@@ -114,7 +114,7 @@ const inputHeight = computed(() => {
   }
 
   &__input {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
     
     width: 100%;
     border: none;
