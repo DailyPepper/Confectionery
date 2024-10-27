@@ -4,8 +4,8 @@
 
   const router = useRouter();
   const isMenuOpen = ref({
-    flights: false,
-    reports: false,
+    order: false,
+    accounting: false,
   });
   const props = defineProps<{
     isHiding: boolean;
@@ -17,10 +17,10 @@
 
   const currentRoute = computed(() => router.currentRoute.value.path);
 
-  const handleClick  = () => {
+  const handleClick = () => {
     if (props.isHiding) {
-      isMenuOpen.value.flights = false;
-      isMenuOpen.value.reports = false;
+      isMenuOpen.value.order = false;
+      isMenuOpen.value.accounting = false;
     }
   };
   onMounted(() => {
@@ -30,113 +30,191 @@
   onBeforeUnmount(() => {
     document.removeEventListener('click', handleClick);
   });
-  </script>
+</script>
 
 <template>
   <nav class="section__user">
     <ul>
-      <li class="section__user--list" :class="{ closed: isHiding}">
-        <NuxtLink to="/admin" class="section__user--link" :class="{ active: currentRoute === '/admin' }">
+      <li
+        class="section__user--list"
+        :class="{ closed: isHiding }"
+      >
+        <div
+          class="section__user--link"
+          @click="toggleMenu('accounting')"
+        >
           <div>
-            <SvgoUserdef alt="user" class="section__user--icon" />
-            <span v-if="!props.isHiding" class="section__user--text" :class="{ active: currentRoute === '/admin' }">
-              Users
+            <SvgoWorkshop
+              alt="workshop"
+              class="section__user--icon"
+            />
+            <span
+              v-if="!props.isHiding"
+              class="section__user--text"
+              :class="{ active: currentRoute === '/' }"
+            >
+              Учет
+            </span>
+          </div>
+
+          <div v-if="!props.isHiding">
+            <SvgoArrowRight
+              v-if="!isMenuOpen.accounting"
+              class="section__user--arrow section__user--arrow--second"
+            />
+            <SvgoArrowBottom
+              v-else
+              class="section__user--close section__user--close--second"
+            />
+          </div>
+        </div>
+
+        <ul
+          v-if="isMenuOpen.accounting"
+          class="section__sub-menu"
+        >
+          <li class="section__sub-menu-item">
+            <NuxtLink
+              to="/"
+              class="section__sub-menu-link"
+            >
+              Инструменты
+            </NuxtLink>
+          </li>
+          <li class="section__sub-menu-item">
+            <NuxtLink
+              to="/accounting/ingredients_decorations"
+              class="section__sub-menu-link"
+            >
+            Ингредиенты и украшения
+            </NuxtLink>
+          </li>
+        </ul>
+      </li>
+
+      <li
+        class="section__user--list"
+        :class="{ closed: isHiding }"
+      >
+        <NuxtLink
+          to="/"
+          class="section__user--link"
+          :class="{ active: currentRoute === '/' }"
+        >
+          <div>
+            <SvgoAccounting
+              alt="accounting"
+              class="section__user--icon"
+            />
+            <span
+              v-if="!props.isHiding"
+              class="section__user--text"
+              :class="{ active: currentRoute === '/' }"
+            >
+              План цеха
             </span>
           </div>
         </NuxtLink>
       </li>
-      <li class="section__user--list" :class="{ closed: isHiding}">
-        <div class="section__user--link" @click="toggleMenu('flights')">
+
+      <li
+        class="section__user--list"
+        :class="{ closed: isHiding }"
+      >
+        <div
+          class="section__user--link"
+          @click="toggleMenu('order')"
+        >
           <div>
-            <SvgoAirplane alt="airplane" class="section__user--icon" />
-            <span v-if="!props.isHiding" class="section__user--text" :class="{ active: currentRoute === '/flights' }">
-              Flight
+            <SvgoOrder
+              alt="order"
+              class="section__user--icon"
+            />
+            <span
+              v-if="!props.isHiding"
+              class="section__user--text"
+              :class="{ active: currentRoute === '/' }"
+            >
+              Заказ
             </span>
           </div>
           <div v-if="!props.isHiding">
-            <SvgoArrow-right v-if="!isMenuOpen.flights" class="section__user--arrow" />
-            <SvgoArrow-bottom v-else class="section__user--close" />
+            <SvgoArrowRight
+              v-if="!isMenuOpen.order"
+              class="section__user--arrow section__user--arrow--second"
+            />
+            <SvgoArrowBottom
+              v-else
+              class="section__user--close section__user--close--second"
+            />
           </div>
         </div>
-        <ul v-if="isMenuOpen.flights" class="section__sub-menu">
+        <ul
+          v-if="isMenuOpen.order"
+          class="section__sub-menu"
+        >
           <li class="section__sub-menu-item">
-            <NuxtLink to="/manage_schedules" class="section__sub-menu-link">
-              Manage Schedules
+            <NuxtLink
+              to="/"
+              class="section__sub-menu-link"
+            >
+              Список заказов
             </NuxtLink>
           </li>
           <li class="section__sub-menu-item">
-            <NuxtLink to="/search" class="section__sub-menu-link">
-              Search for Flight
+            <NuxtLink
+              to="/"
+              class="section__sub-menu-link"
+            >
+              Смена статуса
             </NuxtLink>
           </li>
           <li class="section__sub-menu-item">
-            <NuxtLink to="/booking" class="section__sub-menu-link">
-              Booking
+            <NuxtLink
+              to="/"
+              class="section__sub-menu-link"
+            >
+              Списанные
             </NuxtLink>
           </li>
         </ul>
       </li>
-      <li class="section__user--list" :class="{ closed: isHiding}">
-        <div class="section__user--link" @click="toggleMenu('reports')">
-          <div>
-            <SvgoDocument alt="document" class="section__user--icon" />
-            <span v-if="!props.isHiding" class="section__user--text" :class="{ active: currentRoute === '/flight-reports' }">
-              Flight Reports
-            </span>
-          </div>
-          <div v-if="!props.isHiding">
-            <SvgoArrow-right v-if="!isMenuOpen.reports" class="section__user--arrow section__user--arrow--second" />
-            <SvgoArrow-bottom v-else class="section__user--close section__user--close--second" />
-          </div>
-        </div>
-        <ul v-if="isMenuOpen.reports" class="section__sub-menu">
-          <li class="section__sub-menu-item">
-            <NuxtLink to="/flight_reports" class="section__sub-menu-link">
-              Summary Reports
-            </NuxtLink>
-          </li>
-          <li class="section__sub-menu-item">
-            <NuxtLink to="/flight_reports/details_reports" class="section__sub-menu-link">
-              Details Reports
-            </NuxtLink>
-          </li>
-          <li class="section__sub-menu-item">
-            <NuxtLink to="/amenities-reports" class="section__sub-menu-link">
-              Amenities reports
-            </NuxtLink>
-          </li>
-          <li class="section__sub-menu-item">
-            <NuxtLink to="/airlines-reports" class="section__sub-menu-link">
-              Airlines reports
-            </NuxtLink>
-          </li>
-        </ul>
-      </li>
-      <li class="section__user--list" :class="{ closed: isHiding}">
-        <NuxtLink to="/flight-reports" class="section__user--link" :class="{ active: currentRoute === '/flight-reports' }">
+      <li
+        class="section__user--list"
+        :class="{ closed: isHiding }"
+      >
+        <NuxtLink
+          to="/"
+          class="section__user--link"
+          :class="{ active: currentRoute === '/' }"
+        >
         </NuxtLink>
       </li>
     </ul>
   </nav>
 </template>
 
-
-
 <style lang="scss">
 @use '@/assets/scss/_fonts' as *;
+
 .section {
   z-index: 1000;
+
   &__user {
     &--icon {
       width: 20px;
       height: 20px;
     }
+
     &--list {
-      width: 230px; // Ширина при открытом меню
+      width: 230px;
+      padding: 5px 0;
+
       &.closed {
-        width: 100%; // Ширина при закрытом меню
+        width: 100%;
       }
     }
+
     &--link {
       display: flex;
       align-items: center;
@@ -147,22 +225,27 @@
       cursor: pointer;
       justify-content: space-between;
     }
+
     &--arrow {
       position: relative;
 
     }
+
     &--close {
       position: relative;
 
     }
+
     &--sum-arrow {
       position: relative;
       left: 40px;
     }
+
     &--sum-close {
       position: relative;
       left: 62px;
     }
+
     &--text {
       color: #fdfeff;
     }

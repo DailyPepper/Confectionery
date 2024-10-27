@@ -3,7 +3,6 @@ import MenuLink from "@/components/MenuLink.vue";
 
 const isHiding = ref(false);
 
-
 const hiding = () => {
   isHiding.value = !isHiding.value;
 }
@@ -14,7 +13,7 @@ const hiding = () => {
   <section :class="['section', { collapsed: isHiding }]">
     <div class="section__block">
       <div class="section__block--personal">
-        <div>
+       <div>
           <p 
             class="section__block--name" 
           >
@@ -42,9 +41,8 @@ const hiding = () => {
       <MenuLink :isHiding="isHiding" />
     </div>
     <div class="section__logout">
-      <div
-        class="section__logout--exit"
-      >
+      <div class="section__logout--exit">
+
         <SvgoLogout
           class="section__logout--icon"
           alt="Выйти"
@@ -53,14 +51,9 @@ const hiding = () => {
           v-if="!isHiding"
           class="section__logout-exit-text"
         >
-          Logout
+          Выйти
         </span>
       </div>
-      <img
-        v-if="!isHiding"
-        src="../assets/icons/logo.svg"
-        alt="logo"
-      />
     </div>
   </section>
   <slot />
@@ -68,9 +61,11 @@ const hiding = () => {
 
 <style scoped lang="scss">
 @use '@/assets/scss/_fonts' as *;
+
 .section {
   width: 334px;
-  background-color: #051125;
+  z-index: 10;
+  background-color: rgba(41, 3, 6, 1);
   position: fixed;
   top: 0;
   height: 100vh;
@@ -110,8 +105,8 @@ const hiding = () => {
   }
 
   &__block--icon {
-    position: relative;
-    left: 50px;
+    position: absolute;
+    right: 10px;
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -130,7 +125,7 @@ const hiding = () => {
   &__block--name {
     color: #fdfeff;
     font-size: 20px;
-    word-spacing: 10px;
+    word-spacing: 5px;
     justify-content: center;
     display: flex;
   }

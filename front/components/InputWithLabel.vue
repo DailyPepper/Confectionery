@@ -97,7 +97,14 @@ const inputHeight = computed(() => {
 
 <style scoped lang="scss">
 @use '@/assets/scss/fonts' as *;
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
 .input-with-label {
   display: flex;
   flex-direction: column;
@@ -115,12 +122,13 @@ const inputHeight = computed(() => {
 
   &__input {
     @include Comic(20px, 400);
+
     
     width: 100%;
     border: none;
     background-color: #FFFFFF;
-    border-radius: 20px;
-    padding: 30px 40px;
+    border-radius: 10px;
+    padding: 20px 15px;
     transition: border-color 0.3s;
     padding-right: 50px;
     border: 2px solid #BBB5AD;
