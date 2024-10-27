@@ -1,76 +1,44 @@
 <script setup lang="ts">
-import PopupAddPeople from '~/components/PopupAddPeople.vue';
-
-const isModal = ref(false)
-
-const openModal = () => {
-    console.log('Opening modal');
-    isModal.value = true;
-    console.log('Opening modal');
-}
-
-definePageMeta({
+ definePageMeta({
     layout: 'admin',
 });
-
 </script>
 
 <template>
-<PopupAddPeople v-if="isModal" :show="isModal" @update:show="isModal = false"/>
-  <section class="container">
+<section class="container">
     <div class="result-section">
-    <button class="result-btn" @click="openModal">
-        <SvgoPlus class="header__nav--icon" alt="Add user" />
-        <span>
-            Добавить инструмент
-        </span>
-    </button>
+    <h2>
+        Списание ингредиентов и украшений
+    </h2>
       <table>
         <thead>
           <tr class="container__head">
+            <td>Артукул</td>
             <td>Наименование</td>
-            <td>Тип инструмента</td>
-            <td>Возраст (в месяцах)</td>
-            <td>Количество</td>
+            <td>Кол-во</td>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
+            <td>45924</td>
+            <td>Яйцо второй категории  (45-55 гр.)</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>435695</td>
+            <td>Паста-пюре фрукт.КОНФРУТТИ НАТУР садов.ягоды </td>
             <td>3</td>
           </tr>
           <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
-            <td>3</td>
+            <td>00544</td>
+            <td>Свеча-цифра 23046-0</td>
+            <td>5</td>
           </tr>
         </tbody>
       </table>
     </div>
-  </section>
+</section>
 </template>
-  
   
 <style scoped lang="scss">
 @use '@/assets/scss/_fonts' as *;
@@ -81,11 +49,10 @@ definePageMeta({
 }
 
 .result-section {
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 1040px;
-
+    padding: 20px;
+    width: 80%;
+    max-width: 60%;
+    padding-top: 80px;
   h2 {
     @include adventor-font(36px, 700);
     margin-bottom: 20px;

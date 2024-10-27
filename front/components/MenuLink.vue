@@ -1,4 +1,4 @@
-  <script lang="ts" setup>
+<script lang="ts" setup>
   import { computed, defineProps, ref } from 'vue';
   import { useRouter } from 'vue-router';
 
@@ -171,10 +171,18 @@
           </li>
           <li class="section__sub-menu-item">
             <NuxtLink
-              to="/"
+              to="/writeOff/writeOff"
               class="section__sub-menu-link"
             >
               Списанные
+            </NuxtLink>
+          </li>
+          <li class="section__sub-menu-item">
+            <NuxtLink
+              to="/qualityСontrol/qualityСontrol"
+              class="section__sub-menu-link"
+            >
+              Контроль качества
             </NuxtLink>
           </li>
         </ul>
