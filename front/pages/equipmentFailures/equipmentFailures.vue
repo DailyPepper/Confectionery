@@ -24,7 +24,7 @@ definePageMeta({
           <button class="block__button" @click="showPopupFailure">
             <SvgoPlusAdd style="color: #FF8B16;"/>
             <span>
-              Проверка
+              Добавить
             </span>
           </button>
           <button class="block__edit" @click="showPopupEdit">
