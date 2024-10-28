@@ -171,6 +171,14 @@
           </li>
           <li class="section__sub-menu-item">
             <NuxtLink
+              to="/equipmentFailures/equipmentFailures"
+              class="section__sub-menu-link"
+            >
+              Сбои оборудования
+            </NuxtLink>
+          </li>
+          <li class="section__sub-menu-item">
+            <NuxtLink
               to="/writeOff/writeOff"
               class="section__sub-menu-link"
             >
