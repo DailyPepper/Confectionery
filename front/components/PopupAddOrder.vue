@@ -317,7 +317,7 @@ const cancelPopup = () => {
     }
 
     &__title {
-        @include adventor-font(36px, 700);
+        @include Comic(36px, 700);
         color: rgba(5, 17, 37, 1);
         text-align: center;
     }
@@ -334,7 +334,7 @@ const cancelPopup = () => {
         flex-direction: column;
 
         &--label {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
 
             color: rgba(5, 17, 37, 1);
         }
@@ -342,7 +342,7 @@ const cancelPopup = () => {
         &--item,
         &--textarea,
         &--preview {
-            @include verdana-font(16px, 400);
+            @include Comic(16px, 400);
 
             width: 100%;
             border: none;
@@ -394,13 +394,13 @@ const cancelPopup = () => {
         }
 
         &--title-label {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
 
             margin-top: 15px;
         }
 
         &--text-label {
-            @include verdana-font(16px, 400);
+            @include Comic(16px, 400);
 
             margin-top: 15px;
             color: rgba(103, 103, 103, 1);
@@ -411,7 +411,7 @@ const cancelPopup = () => {
         }
 
         &--preview-text {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
 
             margin-top: 30px;
             color: rgba(103, 103, 103, 1);
@@ -456,7 +456,7 @@ const cancelPopup = () => {
         }
 
         &--message {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
             position: absolute;
             right: 0;
             color: red;
@@ -470,7 +470,7 @@ const cancelPopup = () => {
         align-items: center;
 
         select {
-            @include verdana-font(16px, 400);
+            @include Comic(16px, 400);
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
@@ -504,7 +504,7 @@ const cancelPopup = () => {
         gap: 10px;
 
         &--save {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
             width: 100%;
             padding: 20px 30px;
             background-color: rgba(255, 139, 22, 1);
@@ -524,7 +524,7 @@ const cancelPopup = () => {
         }
 
         &--cancel {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
             width: 100%;
             padding: 20px 30px;
             color: rgba(230, 39, 52, 1);

@@ -155,7 +155,7 @@
         >
           <li class="section__sub-menu-item">
             <NuxtLink
-              to="/"
+              to="/list-orders"
               class="section__sub-menu-link"
             >
               Список заказов
