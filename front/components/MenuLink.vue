@@ -97,7 +97,7 @@
         :class="{ closed: isHiding }"
       >
         <NuxtLink
-          to="/"
+          to="/workshop"
           class="section__user--link"
           :class="{ active: currentRoute === '/' }"
         >
@@ -171,10 +171,10 @@
           </li>
           <li class="section__sub-menu-item">
             <NuxtLink
-              to="/"
+              to="/cancelled"
               class="section__sub-menu-link"
             >
-              Списанные
+              Списание
             </NuxtLink>
           </li>
         </ul>

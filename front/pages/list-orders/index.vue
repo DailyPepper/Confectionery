@@ -2,28 +2,23 @@
   <div class="container">
     <StyleBlock>
       <div class="container__block">
-        <select class="container__select" name="" id="">
-          <option value="">Выберите Статус</option>
+        <select v-model="selectedStatus" class="container__select">
+          <option value="">Все Статусы</option>
+          <option value="Новый">Новый</option>
+          <option value="Составление сметы">Составление сметы</option>
+          <option value="Подтверждение">Подтверждение</option>
+          <option value="Закупка">Закупка</option>
+          <option value="Производство">Производство</option>
+          <option value="Контроль">Контроль</option>
+          <option value="Готов">Готов</option>
+          <option value="Выполнен">Выполнен</option>
+          <option value="Отменен">Отменен</option>
         </select>
-        <button v-if="isCustomer || isClientManager" class="container__button container__button--add">
-          Добавить
-        </button>
-        
-        <button v-if="isCustomer" class="container__button">
-          Удалить
-        </button>
-        
-        <button v-if="isCustomer" class="container__button">
-          Отменить
-        </button>
-        
-        <button v-if="isClientManager" class="container__button container__button--manager" @click="openModal">
-          Редактировать
-        </button>
-        
-        <button v-if="isClientManager" class="container__button container__button--manager">
-          Принять заказ
-        </button>
+        <button v-if="isCustomer || isClientManager" class="container__button container__button--add">Добавить</button>
+        <button v-if="isCustomer" class="container__button">Удалить</button>
+        <button v-if="isCustomer" class="container__button">Отменить</button>
+        <button v-if="isClientManager" class="container__button container__button--manager" @click="openModal">Редактировать</button>
+        <button v-if="isClientManager" class="container__button container__button--manager">Принять заказ</button>
       </div>
     </StyleBlock>
     <p class="container__heading">Результат</p>
@@ -44,12 +39,12 @@
       <tbody>
         <tr v-for="(order, index) in filteredOrders" :key="index">
           <td>
-            <input 
-              type="radio" 
-              name="selectedOrder" 
-              @change="selectOrder(order)" 
-              :checked="selectedOrder && selectedOrder.number === order.number" 
-              class="container__radio" 
+            <input
+              type="radio"
+              name="selectedOrder"
+              @change="selectOrder(order)"
+              :checked="selectedOrder && selectedOrder.number === order.number"
+              class="container__radio"
             />
           </td>
           <td>{{ order.number }}</td>
@@ -94,7 +89,6 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
@@ -102,7 +96,8 @@ definePageMeta({
     layout: 'admin',
 });
 
-const userRole = ref('clientManager'); 
+const userRole = ref('clientManager');
+const selectedStatus = ref(''); 
 
 const orders = ref([
   { number: '001', date: '01.10.24', name: 'Торт "Шоколадный рай"', status: 'Новый', price: '-', client: 'Иванов И.И.', endDate: '-', manager: '-' },
@@ -117,12 +112,19 @@ const isProcurementManager = computed(() => userRole.value === 'procurementManag
 const isMaster = computed(() => userRole.value === 'master');
 
 const filteredOrders = computed(() => {
-  if (isProcurementManager.value) {
-    return orders.value.filter(order => order.status === 'Закупка');
-  } else if (isMaster.value) {
-    return orders.value.filter(order => ['Производство', 'Контроль'].includes(order.status));
+  let ordersList = orders.value;
+
+  if (selectedStatus.value) {
+    ordersList = ordersList.filter(order => order.status === selectedStatus.value);
   }
-  return orders.value;
+
+  if (isProcurementManager.value) {
+    return ordersList.filter(order => order.status === 'Закупка');
+  } else if (isMaster.value) {
+    return ordersList.filter(order => ['Производство', 'Контроль'].includes(order.status));
+  }
+
+  return ordersList;
 });
 
 const showModal = ref(false);
@@ -153,7 +155,6 @@ function closeModal() {
   selectedOrder.value = null;
 }
 </script>
-
 
 <style scoped lang="scss">
 @use '@/assets/scss/_fonts' as *;

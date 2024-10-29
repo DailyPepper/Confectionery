@@ -5,7 +5,7 @@
         url("assets/fonts/Comic-Sans-MS.ttf") format("ttf");
 }
 
-@mixin Comic($size, $weight, $line-height: normal) {
+@mixin Comic($size, $weight, $line-height: 120%) {
     font-family: Comic;
     font-size: $size;
     font-weight: $weight;
