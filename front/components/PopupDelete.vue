@@ -100,7 +100,7 @@ const closePopup = () => {
     }
 
     &__title {
-        @include verdana-font(20px, 400);
+        @include Comic(20px, 400);
 
         text-align: center;
         display: flex;
@@ -109,7 +109,7 @@ const closePopup = () => {
     }
 
     &__delete {
-        @include verdana-font(16px, 400);
+        @include Comic(16px, 400);
 
         display: flex;
         justify-content: center;

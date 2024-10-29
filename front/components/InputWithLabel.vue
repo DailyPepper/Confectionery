@@ -121,7 +121,8 @@ input::-webkit-calendar-picker-indicator {
   }
 
   &__input {
-    @include verdana-font(16px, 400);
+    @include Comic(20px, 400);
+
     
     width: 100%;
     border: none;

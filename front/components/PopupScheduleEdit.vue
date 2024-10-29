@@ -171,7 +171,7 @@ const cancelPopup = () => {
   }
 
   &__title {
-    @include adventor-font(36px, 700);
+    @include Comic(36px, 700);
 
     color: rgba(5, 17, 37, 1);
     text-align: center;
@@ -189,7 +189,7 @@ const cancelPopup = () => {
     gap: 10px;
 
     &--save {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
 
       width: 100%;
       padding: 20px 30px;
@@ -210,7 +210,7 @@ const cancelPopup = () => {
     }
 
     &--cancel {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
 
       width: 100%;
       padding: 20px 30px;
@@ -234,13 +234,13 @@ const cancelPopup = () => {
 }
 
 .filter-grid__text {
-  @include verdana-font(20px, 400);
+  @include Comic(20px, 400);
 
   margin-bottom: 10px;
 }
 
 .filter-grid__input {
-  @include verdana-font(16px, 400);
+  @include Comic(16px, 400);
 
   color: #051125;
   background-color: #f7f8fa;
@@ -256,7 +256,7 @@ const cancelPopup = () => {
 
 .flight-route {
   &__title {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     margin-bottom: 20px;
   }
@@ -268,25 +268,25 @@ const cancelPopup = () => {
   }
 
   &__from {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     color: #051125;
   }
 
   &__to {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     color: #051125;
   }
 
   &__aircraft {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     color: #051125;
   }
 }
 
 .bold {
-  @include verdana-font(16px, 700);
+  @include Comic(16px, 700);
 }
 </style>

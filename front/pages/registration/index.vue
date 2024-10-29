@@ -144,14 +144,14 @@ function navigateToLogin() {
   }
 
   &__error {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
     color: red;
     margin-top: 8px;
     text-align: left;
   }
 
   &__button {
-    @include adventor-font(24px, 400);
+    @include Comic(24px, 400);
     margin-top: 16px;
     padding: 30px 0;
     border-radius: 20px;

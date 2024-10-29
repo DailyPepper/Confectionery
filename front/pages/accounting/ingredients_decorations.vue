@@ -209,7 +209,7 @@ const deleteSelectedItems = () => {
     margin-bottom: 64px;
 
     &__text {
-        @include verdana-font(20px, 400);
+        @include Comic(20px, 400);
 
         margin-bottom: 10px;
     }
@@ -221,7 +221,7 @@ const deleteSelectedItems = () => {
     }
 
     &__input {
-        @include verdana-font(16px, 400);
+        @include Comic(16px, 400);
 
         color: #051125;
         width: 367px;
@@ -233,7 +233,7 @@ const deleteSelectedItems = () => {
     }
 
     &__button {
-        @include adventor-font(16px, 400);
+        @include Comic(16px, 400);
 
         color: black;
         width: 367px;
@@ -252,7 +252,7 @@ const deleteSelectedItems = () => {
     }
 
     &__select {
-        @include verdana-font(16px, 400);
+        @include Comic(16px, 400);
 
         color: #051125;
         width: 367px;
@@ -266,7 +266,7 @@ const deleteSelectedItems = () => {
 }
 
 .table-decorations {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     width: 100%;
     max-width: 1200px;
@@ -274,7 +274,7 @@ const deleteSelectedItems = () => {
     flex-direction: column;
 
     &__title {
-        @include adventor-font(36px, 700);
+        @include Comic(36px, 700);
 
         margin-bottom: 20px;
         color: #051125;
@@ -322,7 +322,7 @@ const deleteSelectedItems = () => {
     justify-content: space-between;
 
     &__button {
-        @include adventor-font(16px, 400);
+        @include Comic(16px, 400);
 
         width: 555px;
         height: 64px;

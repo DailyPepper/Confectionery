@@ -339,7 +339,7 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
   }
 
   &__title {
-    @include adventor-font(36px, 700);
+    @include Comic(36px, 700);
 
     color: rgba(5, 17, 37, 1);
     text-align: center;
@@ -357,7 +357,7 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
     flex-direction: column;
 
     &--label {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
 
       color: rgba(5, 17, 37, 1);
     }
@@ -382,7 +382,7 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
     }
 
     &--message {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
 
       position: absolute;
       right: 0;
@@ -427,7 +427,7 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
     gap: 10px;
 
     &--save {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
 
       width: 100%;
       padding: 20px 30px;
@@ -448,7 +448,7 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
     }
 
     &--cancel {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
 
       width: 100%;
       padding: 20px 30px;
@@ -476,7 +476,7 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
     gap: 60px;
 
     &--label {
-      @include verdana-font(16px, 400);
+      @include Comic(16px, 400);
 
       display: flex;
       align-items: center;
@@ -560,12 +560,12 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
     width: 100%;
     display: flex;
     justify-content: center;
-    @include adventor-font(28px, 700);
+    @include Comic(28px, 700);
     margin-bottom: 30px;
 }
 
 .popup__button {
-  @include adventor-font(20px, 400);
+  @include Comic(20px, 400);
   border-radius: 10px;
   padding: 20px 80px;
   background-color: #196AA6;
@@ -583,10 +583,10 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
   display: flex;
   flex-direction: column;
   margin-bottom: 60px;
-  @include verdana-font(16px, 400);
+  @include Comic(16px, 400);
 
   &__title {
-    @include adventor-font(36px, 700);
+    @include Comic(36px, 700);
 
     margin-bottom: 20px;
     color: #051125;
@@ -628,16 +628,16 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
 
 .payment-summary {
   &__total {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
     margin-bottom: 10px;
   }
 
   &__amount {
-    @include verdana-font(16px, 700);
+    @include Comic(16px, 700);
   }
 
   &__method-title {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
     margin-top: 40px;
     margin-bottom: 10px;
   }
@@ -661,7 +661,7 @@ const typedSelectedFlights = computed(() => props.selectedFlights);
 
   &__label {
     cursor: pointer;
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
   }
 }
 

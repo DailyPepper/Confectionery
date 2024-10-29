@@ -260,7 +260,7 @@ onMounted(() => {
     }
 
     &__title {
-        @include adventor-font(36px, 700);
+        @include Comic(36px, 700);
 
         color: rgba(5, 17, 37, 1);
         text-align: center;
@@ -278,7 +278,7 @@ onMounted(() => {
         flex-direction: column;
 
         &--label {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
 
             color: rgba(5, 17, 37, 1);
         }
@@ -304,7 +304,7 @@ onMounted(() => {
         }
 
         &--message {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
 
             position: absolute;
             right: 0;
@@ -319,7 +319,7 @@ onMounted(() => {
         align-items: center;
 
         select {
-            @include verdana-font(16px, 400);
+            @include Comic(16px, 400);
 
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -351,7 +351,7 @@ onMounted(() => {
         gap: 10px;
 
         &--save {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
 
             width: 100%;
             padding: 20px 30px;
@@ -372,7 +372,7 @@ onMounted(() => {
         }
 
         &--cancel {
-            @include verdana-font(20px, 400);
+            @include Comic(20px, 400);
 
             width: 100%;
             padding: 20px 30px;
@@ -400,7 +400,7 @@ onMounted(() => {
         gap: 60px;
 
         &--label {
-            @include verdana-font(16px, 400);
+            @include Comic(16px, 400);
 
             display: flex;
             align-items: center;

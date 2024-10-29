@@ -174,7 +174,7 @@ watch(isBlocked, (newVal) => {
   }
 
   &__error {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     color: red;
     margin-top: 8px;
@@ -182,7 +182,7 @@ watch(isBlocked, (newVal) => {
   }
 
   &__button {
-    @include adventor-font(24px, 400);
+    @include Comic(24px, 400);
 
     margin-top: 16px;
     padding: 30px 0;
@@ -227,7 +227,7 @@ watch(isBlocked, (newVal) => {
   }
 
   .modal__text {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     margin-top: 10px;
     font-weight: 400;
@@ -239,13 +239,13 @@ watch(isBlocked, (newVal) => {
   }
 
   .modal__timer {
-    @include verdana-font(120px, 700);
+    @include Comic(120px, 700);
 
     margin-top: 30px;
   }
 
   .modal__close {
-    @include verdana-font(30px, 400);
+    @include Comic(30px, 400);
 
     position: absolute;
     top: 20px;

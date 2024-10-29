@@ -1,27 +1,15 @@
 @font-face {
-    font-family: Verdana;
+    font-family: Comic;
     src:
-        url("assets/fonts/Verdana-Bold.ttf") format("ttf"),
-        url("assets/fonts/Verdana.ttf") format("ttf");
+        url("assets/fonts/Comic-Sans-MS.ttf") format("ttf"),
+        url("assets/fonts/Comic-Sans-MS.ttf") format("ttf");
 }
 
-@font-face {
-    font-family: Adventor;
-    src:
-        url("assets/fonts/TeXGyreAdventor-Bold.ttf") format("ttf"),
-        url("assets/fonts/TeXGyreAdventor-Regular.ttf") format("ttf");
-}
-
-@mixin adventor-font($size, $weight, $line-height: normal) {
-    font-family: Adventor, sans-serif;
+@mixin Comic($size, $weight, $line-height: 120%) {
+    font-family: Comic;
     font-size: $size;
     font-weight: $weight;
     line-height: $line-height;
 }
 
-@mixin verdana-font($size, $weight, $line-height: normal) {
-    font-family: Verdana, sans-serif;
-    font-size: $size;
-    font-weight: $weight;
-    line-height: $line-height;
-}
+

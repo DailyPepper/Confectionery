@@ -181,7 +181,7 @@ const handleFileChange = (event: Event) => {
   }
 
   &__heading {
-    @include adventor-font(36px, 700);
+    @include Comic(36px, 700);
 
     color: rgba(5, 17, 37, 1);
     text-align: center;
@@ -205,7 +205,7 @@ const handleFileChange = (event: Event) => {
     gap: 10px;
 
     &-save {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
 
       width: 100%;
       padding: 20px 30px;
@@ -226,7 +226,7 @@ const handleFileChange = (event: Event) => {
     }
 
     &-cancel {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
 
       width: 100%;
       padding: 20px 30px;
@@ -253,7 +253,7 @@ const handleFileChange = (event: Event) => {
   position: relative;
 
   &__label {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     margin-bottom: 10px;
   }
@@ -265,7 +265,7 @@ const handleFileChange = (event: Event) => {
   }
 
   &__input {
-    @include adventor-font(16px, 400);
+    @include Comic(16px, 400);
 
     color: #051125;
     background-color: #F7F8FA;
@@ -280,7 +280,7 @@ const handleFileChange = (event: Event) => {
   }
 
   &__button {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     position: absolute;
     bottom: 0;
@@ -311,7 +311,7 @@ const handleFileChange = (event: Event) => {
 
 .route-info {
   &__header {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     margin-bottom: 20px;
   }
@@ -323,7 +323,7 @@ const handleFileChange = (event: Event) => {
   }
 
   &__text {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     color: #051125;
     width: 500px;
@@ -331,7 +331,7 @@ const handleFileChange = (event: Event) => {
   }
 
   &__highlight {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     position: absolute;
     right: 0;

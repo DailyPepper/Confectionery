@@ -6,18 +6,23 @@ const isHiding = ref(false);
 const hiding = () => {
   isHiding.value = !isHiding.value;
 }
+
 </script>
 
 <template>
   <section :class="['section', { collapsed: isHiding }]">
     <div class="section__block">
       <div class="section__block--personal">
-        <div v-if="!isHiding">
-          <p class="section__block--name">
-            Кирилл Андреевич
+       <div>
+          <p 
+            class="section__block--name" 
+          >
+            User
           </p>
-          <p class="section__block--email">
-            директор
+          <p 
+            class="section__block--email" 
+          >
+          User
           </p>
         </div>
         <SvgoOpenSlider
@@ -37,6 +42,7 @@ const hiding = () => {
     </div>
     <div class="section__logout">
       <div class="section__logout--exit">
+
         <SvgoLogout
           class="section__logout--icon"
           alt="Выйти"
@@ -84,12 +90,12 @@ const hiding = () => {
   }
 
   &__block--name {
-    @include verdana-font(20px, 700);
+    @include Comic(20px, 700);
     color: #fdfeff;
   }
 
   &_block-email {
-    @include verdana-font(14px, 400);
+    @include Comic(14px, 400);
     color: #fdfeff;
   }
 
@@ -112,7 +118,7 @@ const hiding = () => {
     cursor: pointer;
 
     &-manage {
-      @include verdana-font(20px, 400);
+      @include Comic(20px, 400);
     }
   }
 
@@ -125,7 +131,7 @@ const hiding = () => {
   }
 
   &__block--email {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     color: #fdfeff;
     font-size: 13px;
@@ -134,7 +140,7 @@ const hiding = () => {
   }
 
   &__logout {
-    @include verdana-font(20px, 400);
+    @include Comic(20px, 400);
 
     padding-bottom: 150px;
     display: flex;

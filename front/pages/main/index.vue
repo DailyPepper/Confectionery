@@ -28,13 +28,13 @@ definePageMeta({
 
 .welcome {
   &__title {
-    @include adventor-font(36px, 700);
+    @include Comic(36px, 700);
 
     color: #051125;
   }
 
   &__info {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     display: flex;
     justify-content: flex-start;
@@ -43,7 +43,7 @@ definePageMeta({
 
     &-time,
     &-crashes {
-      @include verdana-font(16px, 400);
+      @include Comic(16px, 400);
 
       margin: 0;
     }
@@ -57,7 +57,7 @@ definePageMeta({
   width: 1000px;
 
   &__text {
-    @include adventor-font(36px, 700);
+    @include Comic(36px, 700);
   }
 
   &__table {
@@ -77,14 +77,14 @@ definePageMeta({
   }
 
   &__header-cell {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     padding: 12px;
     text-align: left;
   }
 
   &__cell {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
 
     padding: 12px;
     text-align: left;
