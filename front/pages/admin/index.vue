@@ -1,8 +1,6 @@
 <script setup lang="ts">
-
 import PopupAddPeople from '~/components/PopupAddPeople.vue';
 
-  
 const isModal = ref(false)
 
 const openModal = () => {
@@ -19,7 +17,7 @@ definePageMeta({
 
 <template>
 <PopupAddPeople v-if="isModal" :show="isModal" @update:show="isModal = false"/>
-<section class="container">
+  <section class="container">
     <div class="result-section">
     <button class="result-btn" @click="openModal">
         <SvgoPlus class="header__nav--icon" alt="Add user" />
