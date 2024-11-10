@@ -1,17 +1,44 @@
 <script setup lang="ts">
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from 'chart.js';
+import { Bar } from 'vue-chartjs';
+import * as chartConfig from '@/store/chartConfig';
 
-const isPopupFailure = ref(false)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const isPopupFailure = ref(false);
+const isPopupEdit = ref(false);
+const isGraf = ref(false);
+const chartData = chartConfig.data;
+
 const showPopupFailure = () => {
-  isPopupFailure.value = true
-}
+  isPopupFailure.value = true;
+};
 
-const isPopupEdit = ref(false)
 const showPopupEdit = () => {
-  isPopupEdit.value = true
-}
+  isPopupEdit.value = true;
+};
+
+const showGraf = () => {
+  isGraf.value = !isGraf.value;
+};
 
 definePageMeta({
-    layout: 'admin',
+  layout: 'admin',
 });
 </script>
 
@@ -21,10 +48,11 @@ definePageMeta({
 <section class="container">
     <div class="result-section">
         <div class="block">
+          
           <button class="block__button" @click="showPopupFailure">
             <SvgoPlusAdd style="color: #FF8B16;"/>
             <span>
-              Проверка
+              Добавить
             </span>
           </button>
           <button class="block__edit" @click="showPopupEdit">
@@ -33,47 +61,224 @@ definePageMeta({
               Редактировать
             </span>
           </button>
+          <button class="block__edit">
+            <SvgoImport/>
+            <span>
+              Печать отчета
+            </span>
+          </button>
+          <button class="block__edit" @click="showGraf">
+            <SvgoGraf style="color: white"/>
+            <span>
+              Вывести график
+            </span>
+          </button>
+
+          <select name="" id="" class="block__select">
+            <option value="Выберите статус">
+                Выберите статус 
+            </option>
+          </select> 
+          
+          <select name="" id="" class="block__select">
+            <option value="Выберите статус">
+                Выберите статус 
+            </option>
+          </select>    
+          
+          <select name="" id="" class="block__select">
+            <option value="Выберите статус">
+                Выберите статус 
+            </option>
+          </select>             
+
         </div>
-        <h2>
-          Результат 
-        </h2>
-        <table>
-            <thead>
-            <tr class="container__head">
-                <td></td>
-                <td>Дата cбоя</td>
-                <td>Время сбоя</td>
-                <td>Причина</td>
-                <td>Оборудование</td>
-                <td>Дата починки</td>
-                <td>Время починки</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <input type="checkbox" >
-                </td>
-                <td>17.10.24</td>
-                <td>13:30</td>
-                <td>Ошибка программного обеспечения</td>
-                <td>Станок резки</td>
-                <td>17.10.24</td>
-                <td>14:15</td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="checkbox" >
-                </td>
-                <td>17.10.24</td>
-                <td>13:30</td>
-                <td>Ошибка программного обеспечения</td>
-                <td>Станок резки</td>
-                <td>17.10.24</td>
-                <td>14:15</td>
-            </tr>
-            </tbody>
-        </table>
+
+        <Bar v-if="isGraf" :data="chartData" />
+
+        <section class="section">
+          <h2>
+            Ошибка программного обеспечения  
+          </h2>
+          <table>
+              <thead>
+              <tr class="container__head">
+                  <td></td>
+                  <td>Дата cбоя</td>
+                  <td>Время сбоя</td>
+                  <td>Причина</td>
+                  <td>Оборудование</td>
+                  <td>Дата починки</td>
+                  <td>Время починки</td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                  <td>
+                      <input type="checkbox" >
+                  </td>
+                  <td>17.10.24</td>
+                  <td>13:30</td>
+                  <td>Ошибка программного обеспечения</td>
+                  <td>Станок резки</td>
+                  <td>17.10.24</td>
+                  <td>14:15</td>
+              </tr>
+              <tr>
+                  <td>
+                      <input type="checkbox" >
+                  </td>
+                  <td>17.10.24</td>
+                  <td>13:30</td>
+                  <td>Ошибка программного обеспечения</td>
+                  <td>Станок резки</td>
+                  <td>17.10.24</td>
+                  <td>14:15</td>
+              </tr>
+              </tbody>
+          </table>
+          <p class="section__text">
+            Суммарное время сбоев - 45 мин
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>
+            Сбой в электропитании 
+          </h2>
+          <table>
+              <thead>
+              <tr class="container__head">
+                  <td></td>
+                  <td>Дата cбоя</td>
+                  <td>Время сбоя</td>
+                  <td>Причина</td>
+                  <td>Оборудование</td>
+                  <td>Дата починки</td>
+                  <td>Время починки</td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                  <td>
+                      <input type="checkbox" >
+                  </td>
+                  <td>17.10.24</td>
+                  <td>13:30</td>
+                  <td>Ошибка программного обеспечения</td>
+                  <td>Станок резки</td>
+                  <td>17.10.24</td>
+                  <td>14:15</td>
+              </tr>
+              <tr>
+                  <td>
+                      <input type="checkbox" >
+                  </td>
+                  <td>17.10.24</td>
+                  <td>13:30</td>
+                  <td>Ошибка программного обеспечения</td>
+                  <td>Станок резки</td>
+                  <td>17.10.24</td>
+                  <td>14:15</td>
+              </tr>
+              </tbody>
+          </table>
+          <p class="section__text">
+            Суммарное время сбоев - 25 мин
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>
+            Поломка конвейера 
+          </h2>
+          <table>
+              <thead>
+              <tr class="container__head">
+                  <td></td>
+                  <td>Дата cбоя</td>
+                  <td>Время сбоя</td>
+                  <td>Причина</td>
+                  <td>Оборудование</td>
+                  <td>Дата починки</td>
+                  <td>Время починки</td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                  <td>
+                      <input type="checkbox" >
+                  </td>
+                  <td>17.10.24</td>
+                  <td>13:30</td>
+                  <td>Ошибка программного обеспечения</td>
+                  <td>Станок резки</td>
+                  <td>17.10.24</td>
+                  <td>14:15</td>
+              </tr>
+              <tr>
+                  <td>
+                      <input type="checkbox" >
+                  </td>
+                  <td>17.10.24</td>
+                  <td>13:30</td>
+                  <td>Ошибка программного обеспечения</td>
+                  <td>Станок резки</td>
+                  <td>17.10.24</td>
+                  <td>14:15</td>
+              </tr>
+              </tbody>
+          </table>
+          <p class="section__text">
+            Суммарное время сбоев - 45 мин
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>
+            Перегрев двигателя 
+          </h2>
+          <table>
+              <thead>
+              <tr class="container__head">
+                  <td></td>
+                  <td>Дата cбоя</td>
+                  <td>Время сбоя</td>
+                  <td>Причина</td>
+                  <td>Оборудование</td>
+                  <td>Дата починки</td>
+                  <td>Время починки</td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                  <td>
+                      <input type="checkbox" >
+                  </td>
+                  <td>17.10.24</td>
+                  <td>13:30</td>
+                  <td>Ошибка программного обеспечения</td>
+                  <td>Станок резки</td>
+                  <td>17.10.24</td>
+                  <td>14:15</td>
+              </tr>
+              <tr>
+                  <td>
+                      <input type="checkbox" >
+                  </td>
+                  <td>17.10.24</td>
+                  <td>13:30</td>
+                  <td>Ошибка программного обеспечения</td>
+                  <td>Станок резки</td>
+                  <td>17.10.24</td>
+                  <td>14:15</td>
+              </tr>
+              </tbody>
+          </table>
+          <p class="section__text">
+            Суммарное время сбоев - 5 ч 25 мин
+          </p>
+        </section>
     </div>
 </section>
 </template>
@@ -85,7 +290,16 @@ definePageMeta({
   display: flex;
   justify-content: center;
 }
+.section{
+  margin: 70px 0px;
 
+  &__text{
+    @include Comic(20px, 400);
+    margin-top: 25px;
+    color: rgba(5, 17, 37, 1);
+  }
+
+}
 .result-section {
     width: 80%;
     max-width: 55%;
@@ -101,7 +315,7 @@ definePageMeta({
     background-color: #f9f9f9;
     border-collapse: collapse;
     overflow: hidden;
-    box-shadow: 0px 9px 18.2px 0px rgba(0, 0, 0, 0.1098039216);
+    /* box-shadow: 0px 9px 18.2px 0px rgba(0, 0, 0, 0.1098039216); */
     margin-top: 50px;
     
     th, td {
@@ -216,17 +430,15 @@ input[type='checkbox'] {
   border: 1px solid #948F89;
   border-radius: 20px;
   max-width: 1235px;
-  height: 100px;
   margin-bottom: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 40px;
-  padding-left: 30px;
-
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 25px 25px;
+  justify-content: center;
 }
 .block__select{
-  width: 360px;
+  width: 250px;
   height: 50px;
   border-radius: 20px;
   padding: 15px;
@@ -241,7 +453,7 @@ input[type='checkbox'] {
 .block__button{
   background-color: #FF8B16;
   color: #FFFFFF;
-  width: 360px;
+  width: 250px;
   height: 50px;
   border-radius: 10px;
   font-size: 16px;
@@ -253,7 +465,7 @@ input[type='checkbox'] {
 .block__edit{
   background-color: rgba(254, 216, 127, 1);
   color: #000;
-  width: 360px;
+  width: 250px;
   height: 50px;
   border-radius: 10px;
   font-size: 16px;
