@@ -193,6 +193,14 @@
               Контроль качества
             </NuxtLink>
           </li>
+          <li class="section__sub-menu-item">
+            <NuxtLink
+              to="/productSpecifications/productSpecifications"
+              class="section__sub-menu-link"
+            >
+              Спецификации изделий
+            </NuxtLink>
+          </li>
         </ul>
       </li>
       <li
