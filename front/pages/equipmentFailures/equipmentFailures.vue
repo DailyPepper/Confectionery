@@ -91,12 +91,12 @@ definePageMeta({
     max-width: 55%;
     padding-top: 80px;
   h2 {
-    @include adventor-font(36px, 700);
+    @include Comic(36px, 700);
     margin-bottom: 20px;
   }
 
   table {
-    @include verdana-font(16px, 400);
+    @include Comic(16px, 400);
     width: 100%;
     background-color: #f9f9f9;
     border-collapse: collapse;

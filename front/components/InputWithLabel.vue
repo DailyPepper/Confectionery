@@ -123,7 +123,6 @@ input::-webkit-calendar-picker-indicator {
   &__input {
     @include Comic(20px, 400);
 
-    
     width: 100%;
     border: none;
     background-color: #FFFFFF;

@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import PopupExaminationComponent from "~/components/PopupExamination.vue"
-import { ref } from 'vue';
 
-const isPopupExamination = ref(false)
-const showPopupExamination = () => {
-  isPopupExamination.value = true
+const isPopupSpecification = ref(false)
+
+const showPopupSpecification = () => {
+  isPopupSpecification.value = true
+}
+
+const isPopupView = ref(false)
+const showPopupSpecificationView = () => {
+  isPopupView.value = true
 }
 
 definePageMeta({
@@ -13,21 +17,31 @@ definePageMeta({
 </script>
 
 <template>
-<PopupExaminationComponent v-if="isPopupExamination" :show="isPopupExamination" @update:show="isPopupExamination = false"/>
+<PopupEditSpecification v-if="isPopupSpecification" :show="isPopupSpecification" @update:show="isPopupSpecification = false"/>
+<PopupViewSpecification v-if="isPopupView" :show="isPopupView" @update:show="isPopupView = false"/>
 <section class="container">
     <div class="result-section">
-      <div class="block">
-        <select name="" id="" class="block__select">
+        <div class="block">
+          <select name="" id="" class="block__select">
             <option value="Выберите статус">
                 Выберите статус 
             </option>
-        </select>
-        <button class="block__button" @click="showPopupExamination">
-            Проверка
-        </button>
-      </div>
-      <h2>
-            Списание ингредиентов и украшений
+          </select>
+          <button class="block__button" @click="showPopupSpecificationView">
+            <SvgoPlusAdd style="color: #FF8B16;"/>
+            <span>
+              Просмотр спецификации
+            </span>
+          </button>
+          <button class="block__edit" @click="showPopupSpecification">
+            <SvgoEditFailures style="color: white"/>
+            <span>
+              Редактировать спецификацию
+            </span>
+          </button>
+        </div>
+        <h2>
+          Результат 
         </h2>
         <table>
             <thead>
@@ -41,7 +55,6 @@ definePageMeta({
                 <td>Заказчик</td>
                 <td>Дата конец</td>
                 <td>Ответственный менеджер</td>
-                <td>Проверка</td>
             </tr>
             </thead>
             <tbody>
@@ -52,14 +65,11 @@ definePageMeta({
                 <td>005</td>
                 <td>08.10.24</td>
                 <td>Торт "Фруктовая фантазия"</td>
-                <td>
-                    Контроль
-                </td>
+                <td>Производство</td>
                 <td>9500</td>
                 <td>Смирнова О.О.</td>
                 <td>15.10.24</td>
                 <td>Сидоров А.А.</td>
-                <td>Не было</td>
             </tr>
             <tr>
                 <td>
@@ -68,14 +78,11 @@ definePageMeta({
                 <td>005</td>
                 <td>08.10.24</td>
                 <td>Торт "Фруктовая фантазия"</td>
-                <td>
-                    Контроль
-                </td>
+                <td>Производство</td>
                 <td>9500</td>
                 <td>Смирнова О.О.</td>
                 <td>15.10.24</td>
                 <td>Сидоров А.А.</td>
-                <td>Не было</td>
             </tr>
             </tbody>
         </table>
@@ -225,16 +232,14 @@ input[type='checkbox'] {
   margin-bottom: 50px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 40px;
-
+  padding: 0px 25px;
 }
 .block__select{
   width: 360px;
   height: 50px;
   border-radius: 20px;
   padding: 15px;
-  margin-left: 40px;
   font-size: 16px;
   outline: none;
   appearance: none;
@@ -247,13 +252,33 @@ input[type='checkbox'] {
   color: #FFFFFF;
   width: 360px;
   height: 50px;
-  align-items: center;
   border-radius: 10px;
   font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.block__edit{
+  background-color: rgba(254, 216, 127, 1);
+  color: #000;
+  width: 360px;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
 .block__button:hover{
     background-color: rgba(254, 216, 127, 1);
     color: rgba(0, 0, 0, 1);
     transition: 0.7s;
+}
+.block__edit:hover{
+  background-color: #FF8B16;
+  color: #FFFFFF;
+  transition: 0.7s;
 }
 </style>

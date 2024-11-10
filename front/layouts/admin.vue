@@ -13,16 +13,12 @@ const hiding = () => {
   <section :class="['section', { collapsed: isHiding }]">
     <div class="section__block">
       <div class="section__block--personal">
-       <div>
-          <p 
-            class="section__block--name" 
-          >
-            User
+        <div v-if="!isHiding">
+          <p class="section__block--name">
+            Кирилл Андреевич
           </p>
-          <p 
-            class="section__block--email" 
-          >
-          User
+          <p class="section__block--email">
+            директор
           </p>
         </div>
         <SvgoOpenSlider
