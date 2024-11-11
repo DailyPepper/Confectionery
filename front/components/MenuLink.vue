@@ -83,6 +83,14 @@
           </li>
           <li class="section__sub-menu-item">
             <NuxtLink
+              to="/purchase-tool"
+              class="section__sub-menu-link"
+            >
+              Закупка инструмента
+            </NuxtLink>
+          </li>
+          <li class="section__sub-menu-item">
+            <NuxtLink
               to="/accounting/ingredients_decorations"
               class="section__sub-menu-link"
             >
@@ -163,10 +171,26 @@
           </li>
           <li class="section__sub-menu-item">
             <NuxtLink
+              to="/costEstimation"
+              class="section__sub-menu-link"
+            >
+              Оценка затрат
+            </NuxtLink>
+          </li>
+          <li class="section__sub-menu-item">
+            <NuxtLink
               to="/"
               class="section__sub-menu-link"
             >
               Смена статуса
+            </NuxtLink>
+          </li>
+          <li class="section__sub-menu-item">
+            <NuxtLink
+              to="/remains"
+              class="section__sub-menu-link"
+            >
+              Остатки
             </NuxtLink>
           </li>
           <li class="section__sub-menu-item">
