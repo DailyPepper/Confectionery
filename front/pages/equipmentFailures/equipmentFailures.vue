@@ -48,49 +48,52 @@ definePageMeta({
 <section class="container">
     <div class="result-section">
         <div class="block">
-          
-          <button class="block__button" @click="showPopupFailure">
-            <SvgoPlusAdd style="color: #FF8B16;"/>
-            <span>
-              Добавить
-            </span>
-          </button>
-          <button class="block__edit" @click="showPopupEdit">
-            <SvgoEditFailures style="color: white"/>
-            <span>
-              Редактировать
-            </span>
-          </button>
-          <button class="block__edit">
-            <SvgoImport/>
-            <span>
-              Печать отчета
-            </span>
-          </button>
-          <button class="block__edit" @click="showGraf">
-            <SvgoGraf style="color: white"/>
-            <span>
-              Вывести график
-            </span>
-          </button>
+          <div style="display: flex; gap: 20px;">
+            <button class="block__button" @click="showPopupFailure">
+              <SvgoPlusAdd style="color: #FF8B16;"/>
+              <span>
+                Добавить
+              </span>
+            </button>
+            <button class="block__edit" @click="showPopupEdit">
+              <SvgoEditFailures style="color: white"/>
+              <span>
+                Редактировать
+              </span>
+            </button>
+            <button class="block__edit">
+              <SvgoImport/>
+              <span>
+                Печать отчета
+              </span>
+            </button>
+            <button class="block__edit" @click="showGraf">
+              <SvgoGraf style="color: white"/>
+              <span>
+                Вывести график
+              </span>
+            </button>
+          </div>
 
-          <select name="" id="" class="block__select">
-            <option value="Выберите статус">
-                Выберите статус 
-            </option>
-          </select> 
-          
-          <select name="" id="" class="block__select">
-            <option value="Выберите статус">
-                Выберите статус 
-            </option>
-          </select>    
-          
-          <select name="" id="" class="block__select">
-            <option value="Выберите статус">
-                Выберите статус 
-            </option>
-          </select>             
+          <div style="display: flex; gap: 20px;">
+            <select name="" id="" class="block__select">
+              <option value="Выберите статус">
+                Выберите дату 
+              </option>
+            </select> 
+            
+            <select name="" id="" class="block__select">
+              <option value="Выберите статус">
+                Выберите временной промежуток  
+              </option>
+            </select>    
+            
+            <select name="" id="" class="block__select">
+              <option value="Выберите статус">
+                Выберите причину 
+              </option>
+            </select>             
+          </div>
 
         </div>
 
@@ -431,18 +434,16 @@ input[type='checkbox'] {
   border-radius: 20px;
   max-width: 1235px;
   margin-bottom: 50px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
   padding: 25px 25px;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 .block__select{
-  width: 250px;
+  width: 340px;
   height: 50px;
   border-radius: 20px;
   padding: 15px;
-  margin-left: 40px;
   font-size: 16px;
   outline: none;
   appearance: none;
