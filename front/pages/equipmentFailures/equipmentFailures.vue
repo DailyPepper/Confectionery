@@ -89,8 +89,20 @@ definePageMeta({
             </select>    
             
             <select name="" id="" class="block__select">
-              <option value="Выберите статус">
+              <option value="Выберите статус" disabled>
                 Выберите причину 
+              </option>
+              <option value="Ошибка программного обеспечения">
+                Ошибка программного обеспечения  
+              </option>
+              <option value="Сбой в электропитании">
+                Сбой в электропитании  
+              </option>
+              <option value="Поломка конвейера">
+                Поломка конвейера  
+              </option>
+              <option value="Перегрев двигателя">
+                Перегрев двигателя  
               </option>
             </select>             
           </div>
