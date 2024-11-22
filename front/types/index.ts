@@ -9,3 +9,10 @@ export interface TableItem {
   businessPrice: number | null;
   expiryDate: string | null;
 }
+
+export interface User {
+  id: string;
+  username: string;
+  role: string;
+  fullName: string;
+}
