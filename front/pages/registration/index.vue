@@ -52,6 +52,8 @@ async function handleSubmit() {
         fullName: name.value,
         password: password.value
       })
+
+      navigateTo('login')
     } catch (error) {
       console.log('Ошибка регистрации');
     }

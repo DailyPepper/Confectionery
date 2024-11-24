@@ -1,12 +1,20 @@
 <script lang="ts" setup>
 import MenuLink from "@/components/MenuLink.vue";
+import { useAuthStore } from "~/store/userAuth";
 
+const useAuth = useAuthStore()
 const isHiding = ref(false);
 
 const hiding = () => {
   isHiding.value = !isHiding.value;
 }
 
+const handleExit = () => {
+  useAuth.isAuth = false
+  console.log(useAuth.isAuth);
+
+  navigateTo('login')
+}
 </script>
 
 <template>
@@ -14,39 +22,23 @@ const hiding = () => {
     <div class="section__block">
       <div class="section__block--personal">
         <div v-if="!isHiding">
-          <p class="section__block--name">
-            Кирилл Андреевич
+          <p v-if="useAuth.user" class="section__block--name">
+            {{ useAuth.user.fullName }}
           </p>
-          <p class="section__block--email">
-            директор
+          <p v-if="useAuth.user" class="section__block--email">
+            {{ useAuth.user.role }}
           </p>
         </div>
-        <SvgoOpenSlider
-          v-if="isHiding"
-          @click="hiding"
-          alt="Скрыть"
-          class="section__block--iconClose"
-        />
-        <SvgoCloseSlider
-          v-else
-          @click="hiding"
-          class="section__block--icon"
-          alt="Показать"
-        />
+        <SvgoOpenSlider v-if="isHiding" @click="hiding" alt="Скрыть" class="section__block--iconClose" />
+        <SvgoCloseSlider v-else @click="hiding" class="section__block--icon" alt="Показать" />
       </div>
       <MenuLink :isHiding="isHiding" />
     </div>
-    <div class="section__logout">
+    <div @click="handleExit" class="section__logout">
       <div class="section__logout--exit">
 
-        <SvgoLogout
-          class="section__logout--icon"
-          alt="Выйти"
-        />
-        <span
-          v-if="!isHiding"
-          class="section__logout-exit-text"
-        >
+        <SvgoLogout class="section__logout--icon" alt="Выйти" />
+        <span v-if="!isHiding" class="section__logout-exit-text">
           Выйти
         </span>
       </div>

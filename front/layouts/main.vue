@@ -1,16 +1,7 @@
 <script lang="ts" setup>
-import { useUserStore } from '~/store/user';
+import { useAuthStore } from '~/store/userAuth';
 
-const userStore = useUserStore();
-
-async function redirectLogin() {
-  try {
-    await userStore.logout();
-    navigateTo('/login')
-  } catch (error) {
-    console.error('Ошибка при выходе:', error);
-  }
-}
+const useAuth = useAuthStore();
 
 const isHiding = ref(false);
 
@@ -18,8 +9,14 @@ function toggleSidebar() {
   isHiding.value = !isHiding.value;
 }
 
+const handleExit = () => {
+  useAuth.isAuth = false
+  console.log(useAuth.isAuth);
+
+  navigateTo('/login');
+}
+
 defineExpose({
-  redirectLogin,
   toggleSidebar,
 });
 </script>
@@ -28,53 +25,25 @@ defineExpose({
   <section :class="['section', { collapsed: isHiding }]">
     <div class="section_block">
       <div v-if="!isHiding">
-        <p 
-          v-if="userStore.user"
-          class="section__block--name" 
-        >
-          {{ userStore.user.firstName }} {{ userStore.user.lastName }}
+        <p v-if="useAuth.user" class="section__block--name">
+          {{ useAuth.user.fullName }}
         </p>
-        <p 
-          v-if="userStore.user"
-          class="section__block--email" 
-        >
-          {{ userStore.user.email }}
+        <p v-if="useAuth.user" class="section__block--email">
+          {{ useAuth.user.role }}
         </p>
       </div>
-      <button
-        @click="toggleSidebar"
-        class="toggle-button"
-      >
-        <SvgoOpenSlider
-          v-if="isHiding"
-          class="toggle-icon"
-        />
-        <SvgoCloseSlider
-          v-else
-          class="toggle-icon"
-        />
+      <button @click="toggleSidebar" class="toggle-button">
+        <SvgoOpenSlider v-if="isHiding" class="toggle-icon" />
+        <SvgoCloseSlider v-else class="toggle-icon" />
       </button>
     </div>
 
     <div class="section_logout">
-      <div
-        class="section_logout-exit"
-        @click="redirectLogin"
-      >
-        <SvgoLogout
-          class="section_logout-icon"
-          alt="Выйти"
-        />
-        <span
-          v-if="!isHiding"
-          class="section_logout-exit-text"
-        >Logout</span>
+      <div class="section_logout-exit" @click="handleExit">
+        <SvgoLogout class="section_logout-icon" alt="Выйти" />
+        <span v-if="!isHiding" class="section_logout-exit-text">Выйти</span>
       </div>
-      <img
-        src="../assets/icons/logo.svg"
-        alt="logo"
-        v-if="!isHiding"
-      />
+      <img src="../assets/icons/logo.svg" alt="logo" v-if="!isHiding" />
     </div>
   </section>
   <slot />
@@ -132,10 +101,10 @@ defineExpose({
 
   &__block--name {
     @include Comic(20px, 700);
-    
+
     color: #fdfeff;
   }
-  
+
   &__block--email {
     @include Comic(14px, 400);
 

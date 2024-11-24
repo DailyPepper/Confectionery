@@ -69,6 +69,10 @@ async function handleSubmit() {
         username: username.value,
         password: password.value
       })
+
+      if (userStore.isAuth) {
+        navigateTo('/admin')
+      }
     } catch (error) {
       console.log('Ошибка входа');
 
