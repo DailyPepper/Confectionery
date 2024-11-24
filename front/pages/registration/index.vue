@@ -7,35 +7,15 @@
           <div class="login-page__form-errors">
             <p v-if="formError" class="login-page__error">{{ formError }}</p>
           </div>
-          <InputWithLabel
-            v-model="name"
-            type="text"
-            placeholder="ФИО"
-            class="login-page__input login-page__input--name"
-          />
-          <InputWithLabel
-            v-model="username"
-            type="text"
-            placeholder="Логин"
-            class="login-page__input"
-          />
-          <InputWithLabel
-            v-model="password"
-            type="password"
-            placeholder="Пароль"
-            class="login-page__input"
-          />
+          <InputWithLabel v-model="name" type="text" placeholder="ФИО"
+            class="login-page__input login-page__input--name" />
+          <InputWithLabel v-model="username" type="text" placeholder="Логин" class="login-page__input" />
+          <InputWithLabel v-model="password" type="password" placeholder="Пароль" class="login-page__input" />
           <p v-if="passwordError" class="login-page__error">{{ passwordError }}</p>
-          <button
-            type="submit"
-            class="login-page__button login-page__button--login"
-          >
+          <button type="submit" class="login-page__button login-page__button--login">
             Зарегистрироваться
           </button>
-          <button
-            class="login-page__button login-page__button--registration"
-            @click="navigateToLogin"
-          >
+          <button class="login-page__button login-page__button--registration" @click="navigateToLogin">
             Назад
           </button>
         </form>
@@ -47,7 +27,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'; 
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '~/store/userAuth';
+
+const registrationStore = useAuthStore();
 
 const name = ref('');
 const username = ref('');
@@ -55,21 +38,27 @@ const password = ref('');
 const formError = ref('');
 const passwordError = ref('');
 
-const router = useRouter(); 
+const router = useRouter();
 
-function handleSubmit() {
-  formError.value = '';
-  passwordError.value = '';
-
+async function handleSubmit() {
   if (!validatePassword()) {
     return;
   }
 
-  if (username.value === 'admin' && password.value === 'admin') {
-    alert('Login successful!');
-  } else {
-    formError.value = 'Неправильный логин или пароль';
+  if (name.value && username.value && password.value) {
+    try {
+      await registrationStore.fetchRegistration({
+        username: username.value,
+        fullName: name.value,
+        password: password.value
+      })
+    } catch (error) {
+      console.log('Ошибка регистрации');
+    }
   }
+
+  formError.value = '';
+  passwordError.value = '';
 }
 
 function validatePassword() {
@@ -95,7 +84,7 @@ function validatePassword() {
 }
 
 function navigateToLogin() {
-  router.push('/login'); 
+  router.push('/login');
 }
 </script>
 
@@ -107,7 +96,7 @@ function navigateToLogin() {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
+
   &__input--name {
     margin-top: 60px;
   }
@@ -164,7 +153,7 @@ function navigateToLogin() {
       border: none;
       margin-top: 60px;
     }
-   
+
     &--registration {
       background-color: transparent;
       color: #FF8B16;

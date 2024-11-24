@@ -9,6 +9,11 @@ export const useAuthStore = defineStore("user", () => {
     username: string;
     password: string;
   }) => {
+    if (isAuth.value) {
+      console.error("Пользователь уже вошел в систему");
+      return;
+    }
+
     try {
       const response = await $fetch<User>(
         "http://176.124.213.100:8080/auth/login",
@@ -30,7 +35,7 @@ export const useAuthStore = defineStore("user", () => {
           role: response.role,
           fullName: response.fullName,
         };
-        console.log("Успешный вход!");
+        console.log("Успешный вход!", user.value);
       }
     } catch (error) {
       console.log("Ошибка входа: ", error);
@@ -39,8 +44,8 @@ export const useAuthStore = defineStore("user", () => {
 
   const fetchRegistration = async (userRegister: {
     username: string;
-    password: string;
     fullName: string;
+    password: string;
   }) => {
     try {
       const response = await $fetch(
@@ -55,7 +60,7 @@ export const useAuthStore = defineStore("user", () => {
         }
       );
 
-      if (response) console.log("Пользователь успешно зарегестрирован");
+      if (response) console.log("Пользователь успешно зарегестрирован", userRegister);
     } catch (error) {
       console.log("Ошибка при регистрации: ", error);
     }

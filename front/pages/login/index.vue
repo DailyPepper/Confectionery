@@ -7,33 +7,14 @@
           <div class="login-page__form-errors">
             <p v-if="errorMessage" class="login-page__error">{{ errorMessage }}</p>
           </div>
-          <InputWithLabel
-            v-model="username"
-            type="text"
-            placeholder="Логин"
-            class="login-page__input"
-            :class="{ 'login-page__input--error': errorMessage }"
-            :disabled="isBlocked"
-          />
-          <InputWithLabel
-            v-model="password"
-            type="password"
-            placeholder="Пароль"
-            class="login-page__input"
-            :class="{ 'login-page__input--error': errorMessage }"
-            :disabled="isBlocked"
-          />
-          <button
-            type="submit"
-            class="login-page__button login-page__button--login"
-            :disabled="isBlocked"
-          >
+          <InputWithLabel v-model="username" type="text" placeholder="Логин" class="login-page__input"
+            :class="{ 'login-page__input--error': errorMessage }" :disabled="isBlocked" />
+          <InputWithLabel v-model="password" type="password" placeholder="Пароль" class="login-page__input"
+            :class="{ 'login-page__input--error': errorMessage }" :disabled="isBlocked" />
+          <button type="submit" class="login-page__button login-page__button--login" :disabled="isBlocked">
             Вход
           </button>
-          <button
-            class="login-page__button login-page__button--registration"
-            @click="navigateToRegistration"
-          >
+          <button class="login-page__button login-page__button--registration" @click="navigateToRegistration">
             Регистрация
           </button>
         </form>
@@ -57,7 +38,10 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { useRouter } from 'vue-router'; 
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '~/store/userAuth';
+
+const userStore = useAuthStore();
 
 const username = ref('');
 const password = ref('');
@@ -65,7 +49,7 @@ const errorMessage = ref('');
 const attemptCount = ref(0);
 const isBlocked = ref(false);
 const showModal = ref(false);
-const remainingTime = ref(5); 
+const remainingTime = ref(5);
 let timer: number | undefined;
 
 const router = useRouter();
@@ -76,20 +60,27 @@ const formattedTime = computed(() => {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 });
 
-function handleSubmit() {
+async function handleSubmit() {
   if (isBlocked.value) return;
 
-  if (username.value === 'admin' && password.value === 'admin') {
-    alert('Login successful!');
-    resetLoginState();
-  } else {
-    attemptCount.value += 1;
-    errorMessage.value = 'Неправильный логин или пароль';
-    
-    if (attemptCount.value >= 3) {
-      blockUser();
+  if (username.value && password.value) {
+    try {
+      await userStore.fetchLogin({
+        username: username.value,
+        password: password.value
+      })
+    } catch (error) {
+      console.log('Ошибка входа');
+
+      attemptCount.value += 1;
+      errorMessage.value = 'Неправильный логин или пароль';
+
+      if (attemptCount.value >= 3) {
+        blockUser();
+      }
     }
   }
+  resetLoginState();
 }
 
 function blockUser() {
