@@ -1,4 +1,4 @@
-export const useToolStore = defineStore("tool", () => {
+export const useAddToolStore = defineStore("tool", () => {
   const addTool = async (toolData: {
     name: string;
     description: string;

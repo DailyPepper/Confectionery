@@ -1,28 +1,44 @@
 <script setup lang="ts">
+import { useToolStore } from '~/store/fetchTool';
+
 const isModal = ref(false)
 
 const openModal = () => {
-    console.log('Opening modal');
-    isModal.value = true;
-    console.log('Opening modal');
+  console.log('Opening modal');
+  isModal.value = true;
 }
 
 definePageMeta({
-    layout: 'admin',
+  layout: 'admin',
 });
 
+const useTool = useToolStore()
+
+const calculateMonths = (dateString: string): number => {
+  const purchaseDate = new Date(dateString)
+  const currentDate = new Date()
+
+  const years = currentDate.getFullYear() - purchaseDate.getFullYear()
+  const months = currentDate.getMonth() - purchaseDate.getMonth()
+
+  return years * 12 + months
+}
+
+onMounted(() => {
+  useTool.fetchTools()
+})
 </script>
 
 <template>
-<PopupAddTool v-if="isModal" :show="isModal" @update:show="isModal = false"/>
+  <PopupAddTool v-if="isModal" :show="isModal" @update:show="isModal = false" />
   <section class="container">
     <div class="result-section">
-    <button class="result-btn" @click="openModal">
+      <button class="result-btn" @click="openModal">
         <SvgoPlus class="header__nav--icon" alt="Add user" />
         <span>
-            Добавить инструмент
+          Добавить инструмент
         </span>
-    </button>
+      </button>
       <table>
         <thead>
           <tr class="container__head">
@@ -33,43 +49,18 @@ definePageMeta({
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Нож для хлеба</td>
-            <td>Кухонные ножи</td>
-            <td>12</td>
-            <td>3</td>
+          <tr v-for="tool in useTool.tools" :key="tool.id">
+            <td>{{ tool.name }}</td>
+            <td>{{ tool.type.name }}</td>
+            <td>{{ calculateMonths(tool.purchaseDate) }}</td>
+            <td>{{ tool.quantity }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 </template>
-  
-  
+
 <style scoped lang="scss">
 @use '@/assets/scss/_fonts' as *;
 
@@ -97,19 +88,22 @@ definePageMeta({
     overflow: hidden;
     box-shadow: 0px 9px 18.2px 0px rgba(0, 0, 0, 0.1098039216);
     margin-top: 50px;
-    
-    th, td {
+
+    th,
+    td {
       padding: 12px;
       text-align: left;
       vertical-align: middle;
     }
+
     tr {
-        border: 2px solid rgba(254, 238, 219, 1);
+      border: 2px solid rgba(254, 238, 219, 1);
     }
-.container__head {
-    border-radius: 10px;
-    background-color: rgba(254, 238, 219, 1);
-}
+
+    .container__head {
+      border-radius: 10px;
+      background-color: rgba(254, 238, 219, 1);
+    }
 
     .regular {
       background-color: rgba(255, 255, 255, 1);
@@ -131,23 +125,24 @@ definePageMeta({
   }
 }
 
-.result-btn{
-    width: 280px;
-    height: 64px;
-    background-color: rgb(255, 139, 22);
-    color: #fff;
-    font-size: 16px;
-    font-weight: 400;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+.result-btn {
+  width: 280px;
+  height: 64px;
+  background-color: rgb(255, 139, 22);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
-.result-btn:hover{
-    background-color: rgba(254, 216, 127, 1);
-    color: rgba(0, 0, 0, 1);
-    transition: 0.7s;
+
+.result-btn:hover {
+  background-color: rgba(254, 216, 127, 1);
+  color: rgba(0, 0, 0, 1);
+  transition: 0.7s;
 }
 
 input[type='checkbox'] {
@@ -206,4 +201,3 @@ input[type='checkbox'] {
   box-shadow: 0 0 0 1px #000;
 }
 </style>
-  

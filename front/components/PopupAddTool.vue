@@ -165,16 +165,16 @@
 <script lang="ts" setup>
 import useVuelidate from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
-import { useToolStore } from '~/store/AddTool';
-import { useFilterStore } from '~/store/fetchTool';
+import { useAddToolStore } from '~/store/AddTool';
+import { useToolStore } from '~/store/fetchTool';
 
 defineProps({
     show: Boolean,
 });
 
 const emit = defineEmits(['update:show', 'userAdded']);
-const useFilters = useFilterStore()
-const useTool = useToolStore()
+const useFilters = useToolStore()
+const useTool = useAddToolStore()
 
 const wears = [ 
     {

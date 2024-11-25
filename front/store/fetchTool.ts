@@ -1,8 +1,9 @@
-import type { Supplier, ToolTypes } from "~/types";
+import type { Supplier, Tool, ToolTypes } from "~/types";
 
-export const useFilterStore = defineStore("selects", () => {
+export const useToolStore = defineStore("selects", () => {
   const toolsTypes = ref<ToolTypes[]>([]);
   const suppliers = ref<Supplier[]>([]);
+  const tools = ref<Tool[]>([]);
 
   const fetchTypes = async () => {
     try {
@@ -42,10 +43,31 @@ export const useFilterStore = defineStore("selects", () => {
     }
   };
 
+  const fetchTools = async () => {
+    try {
+      const response = await $fetch<Tool[]>(
+        "http://176.124.213.100:8080/tools",
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      if (response) tools.value = response;
+    } catch (error) {
+      console.log("Ошибка получения типов: ", error);
+    }
+  };
+
   return {
     fetchTypes,
     fetchSuppliers,
+    fetchTools,
     toolsTypes,
     suppliers,
+    tools,
   };
 });

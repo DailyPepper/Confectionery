@@ -28,3 +28,14 @@ export interface Supplier {
   address: string;
   deliveryTime: number;
 }
+
+export interface Tool {
+  id: number;
+  name: string;
+  description: string;
+  supplier: Supplier;
+  wear: string;
+  type: ToolTypes;
+  purchaseDate: string;
+  quantity: number;
+}
