@@ -16,3 +16,15 @@ export interface User {
   role: string;
   fullName: string;
 }
+
+export interface ToolTypes {
+  id: number;
+  name: string;
+}
+
+export interface Supplier {
+  id: number;
+  name: string;
+  address: string;
+  deliveryTime: number;
+}

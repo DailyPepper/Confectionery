@@ -3,9 +3,9 @@ export const useToolStore = defineStore("tool", () => {
     name: string;
     description: string;
     supplierId: number;
-    wear: "NEW";
+    wear: string;
     typeId: number;
-    purchaseDate: null;
+    purchaseDate: string;
     quantity: number;
   }) => {
     try {
@@ -13,7 +13,7 @@ export const useToolStore = defineStore("tool", () => {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-type": "applications/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(toolData),
       });

@@ -1,7 +1,7 @@
 <template>
     <div v-if="show" class="fixed" @click.self="closePopup">
         <div class="popup">
-            <SvgoClose class="popup__close" @click="closePopup" />
+            <SvgoClose class="popup__close" @click="cancelPopup" />
             <h2 class="popup__title">
                 Добавить инструмент
             </h2>
@@ -11,38 +11,38 @@
                         Наименование:
                     </label>
                     <InputWithLabel
-                        id="email"
-                        v-model="formData.email"
-                        :class="{ 'popup__input--error': v$.email.$error }"
+                        v-model="formData.name"
+                        id="name"
+                        :class="{ 'popup__input--error': v$.name.$error }"
                         type="text"
                         placeholder="Введите наименование"
                     />
-                    <p v-if="v$.email.$error" class="popup__input--message">
-                        (Invalid Наименование)
+                    <p v-if="v$.name.$error" class="popup__input--message">
+                        (Неправильное наименование)
                     </p>
                 </section>
 
                 <section class="popup__input">
                     <label id="description" class="popup__input--label" for="firstName">Описание:</label>
                     <textarea 
-                        v-model="formData.first_name"
+                        v-model="formData.description"
                         name="description" 
-                        id="description" 
+                        id="description"
                         type="text"
                         placeholder="Введите описание"
                         class="popup__input--textarea"
                     />
-                    <p v-if="v$.first_name.$error" class="popup__input--message">
-                        (First name is required)
+                    <p v-if="v$.description.$error" class="popup__input--message">
+                        (Неправильное описание)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label class="popup__input--label" for="lastName">Тип инструмента:</label>
+                    <label class="popup__input--label" for="type">Тип инструмента:</label>
                     <div class="popup__select">
                         <select 
-                            v-model="formData.office_id" i
-                            d="office" 
+                            v-model="formData.type"
+                            id="type" 
                             required 
                             class="popup__select--block"
                         >
@@ -55,27 +55,27 @@
                                 Выберите тип инструмента
                             </option>
                             <option 
-                                v-for="office in offices" 
-                                :key="office.id" 
-                                :value="office.id" 
+                                v-for="type in useFilters.toolsTypes" 
+                                :key="type.id"
+                                :value="type.id" 
                                 class="header__select--option"
                             >
-                                {{ office.title }}
+                                {{ type.name }}
                             </option>
                         </select>
                     </div>
-                    <p v-if="v$.last_name.$error" class="popup__input--message">
-                        (тип инструмента is required)
+                    <p v-if="v$.type.$error" class="popup__input--message">
+                        (Неправильный тип инструмента)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label class="popup__input--label" for="office">Степень износа:</label>
+                    <label class="popup__input--label" for="wear">Степень износа:</label>
                     <div class="popup__select">
                         <select 
-                            id="office" 
+                            id="wear" 
                             required 
-                            v-model="formData.office_id" 
+                            v-model="formData.wear" 
                             class="popup__select--block"
                         >
                             <option 
@@ -87,51 +87,69 @@
                                 Выберите степень износа
                             </option>
                             <option 
-                                v-for="office in offices" 
-                                :key="office.id" 
-                                :value="office.id" 
+                                v-for="wear in wears" 
+                                :key="wear.id" 
+                                :value="wear.value" 
                                 class="header__select--option"
                             >
-                                {{ office.title }}
+                                {{ wear.title }}
                             </option>
                         </select>
                     </div>
-                    <p v-if="v$.last_name.$error" class="popup__input--message">(Степень износа is required)</p>
-                </section>
-                
-                <section class="popup__input">
-                    <label class="popup__input--label" for="birthdate">Поставщик:</label>
-                    <InputWithLabel
-                        id="password"
-                        v-model="formData.password"
-                        :class="{ 'popup__input--error': v$.password.$error }"
-                        type="text"
-                        placeholder="Введите поставщика"
-                    />
-                    <p v-if="v$.birthdate.$error" class="popup__input--message">(Birthdate is required)</p>
+                    <p v-if="v$.wear.$error" class="popup__input--message">(Неправильная степень износа)</p>
                 </section>
 
                 <section class="popup__input">
-                    <label class="popup__input--label" for="password">Дата приобретения:</label>
+                    <label class="popup__input--label" for="supplier">Поставщик:</label>
+                    <div class="popup__select">
+                        <select 
+                            id="supplier" 
+                            required 
+                            v-model="formData.supplier" 
+                            class="popup__select--block"
+                        >
+                            <option 
+                                value="" 
+                                disabled 
+                                selected 
+                                hidden
+                            >
+                                Выберите поставщика
+                            </option>
+                            <option 
+                                v-for="supplier in useFilters.suppliers" 
+                                :key="supplier.id" 
+                                :value="supplier.id" 
+                                class="header__select--option"
+                            >
+                                {{ supplier.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <p v-if="v$.supplier.$error" class="popup__input--message">(Неправильная поставщик)</p>
+                </section>
+
+                <section class="popup__input">
+                    <label class="popup__input--label" for="date">Дата приобретения:</label>
                     <InputWithLabel
-                        id="birthdate"
-                        v-model="formData.birthdate"
-                        :class="{ 'popup__input--error': v$.birthdate.$error }"
+                        id="date"
+                        v-model="formData.date"
+                        :class="{ 'popup__input--error': v$.date.$error }"
                         type="date"
                     />
-                    <p v-if="v$.password.$error" class="popup__input--message">(Password is required)</p>
+                    <p v-if="v$.date.$error" class="popup__input--message">(Неправильная дата)</p>
                 </section>
 
                 <section class="popup__input">
-                    <label class="popup__input--label" for="repeatPassword">Количество в наличии:</label>
+                    <label class="popup__input--label" for="count">Количество в наличии:</label>
                     <InputWithLabel
-                        id="repeatPassword"
-                        v-model="formData.repeat_password"
-                        :class="{ 'popup__input--error': v$.repeat_password.$error }"
+                        id="count"
+                        v-model="formData.count"
+                        :class="{ 'popup__input--error': v$.count.$error }"
                         type="number"
                         placeholder="Введите число"
                     />
-                    <p v-if="v$.repeat_password.$error" class="popup__input--message">(Passwords do not match)</p>
+                    <p v-if="v$.count.$error" class="popup__input--message">(Неправильное количество)</p>
                 </section>
 
                 <section class="popup__buttons">
@@ -146,37 +164,54 @@
 
 <script lang="ts" setup>
 import useVuelidate from '@vuelidate/core';
-import { required, email, sameAs, minLength } from '@vuelidate/validators';
+import { required, minLength } from '@vuelidate/validators';
+import { useToolStore } from '~/store/AddTool';
+import { useFilterStore } from '~/store/fetchTool';
 
-const offices = ref<Array<{ id: number; title: string }>>([]);
-
-const props = defineProps({
+defineProps({
     show: Boolean,
 });
 
 const emit = defineEmits(['update:show', 'userAdded']);
+const useFilters = useFilterStore()
+const useTool = useToolStore()
+
+const wears = [ 
+    {
+        id: 1,
+        title: "Новый",
+        value: "NEW",
+    },
+    {
+        id: 2,
+        title: "Б/У",
+        value: "USED",
+    },
+    {
+        id: 3,
+        title: "Изношенный",
+        value: "WORN",
+    },
+]
 
 const formData = ref({
-    birthdate: '',
-    email: '',
-    first_name: '',
-    last_name: '',
-    office_id: '',
-    password: '',
-    repeat_password: '',
-    is_active: true
+    name: '',
+    description: '',
+    type: '',
+    wear: '',
+    supplier: '',
+    date: '',
+    count: '',
 });
 
 const rules = {
-    email: { required, email },
-    first_name: { required, minLength: minLength(2) },
-    last_name: { required, minLength: minLength(2) },
-    birthdate: { required },
-    password: { required, minLength: minLength(6) },
-    repeat_password: {
-        required,
-        sameAs: sameAs(computed(() => formData.value.password)),
-    }
+    name: { required, minLength: minLength(2) },
+    description: { required, minLength: minLength(2) },
+    type: { required },
+    wear: { required },
+    supplier: { required },
+    date: { required },
+    count: { required, minLength: minLength(1) }
 };
 
 const v$ = useVuelidate(rules, formData);
@@ -185,39 +220,32 @@ const handleSubmit = async () => {
     v$.value.$touch();
     if (v$.value.$invalid) return;
 
-    // try {
-    //     const response = await fetch('http://localhost:8080/users', {
-    //         method: 'POST',
-    //         credentials: 'include',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(formData.value),
-    //     });
+    try {
+        await useTool.addTool({
+            name: formData.value.name,
+            description: formData.value.description,
+            supplierId: parseInt(formData.value.supplier),
+            wear: formData.value.wear,
+            typeId: parseInt(formData.value.type),
+            purchaseDate: formData.value.date,
+            quantity: parseInt(formData.value.count),
+        })
+    } catch (error) {
+        console.log('Ошибка добавления: ', error);
+    }
 
-    //     if (response.ok) {
-    //         emit('userAdded'); // Уведомляем родительский компонент о добавлении пользователя
-    //         emit('update:show', false); // Закрываем модальное окно
-    //         resetForm(); // Сбрасываем форму
-    //     } else {
-    //         // Обработка ошибки ответа, если это необходимо
-    //         console.error('Error:', await response.text());
-    //     }
-    // } catch (error) {
-    //     console.error('Error submitting form:', error);
-    // }
+    closePopup()
 };
 
 const resetForm = () => {
     formData.value = {
-        email: '',
-        first_name: '',
-        last_name: '',
-        office_id: '',
-        birthdate: '',
-        password: '',
-        repeat_password: '',
-        is_active: true
+        name: '',
+        description: '',
+        type: '',
+        wear: '',
+        supplier: '',
+        date: '',
+        count: '',
     };
     v$.value.$reset(); 
 };
@@ -231,29 +259,9 @@ const cancelPopup = () => {
     closePopup(); 
 };
 
-const fetchOffices = async () => {
-    // try {
-    //     const response = await fetch('http://localhost:8080/offices', {
-    //         method: 'GET',
-    //         credentials: 'include',
-    //     });
-
-    //     if (!response.ok) {
-    //         const errorData = await response.text();
-    //         console.error(`Error: ${response.status} - ${errorData}`);
-    //         throw new Error(`Error: ${response.status}`);
-    //     }
-
-    //     const data = await response.json();
-    //     offices.value = data;
-    //     console.log('Office data:', data);
-    // } catch (error) {
-    //     console.error('Error fetching offices:', error);
-    // }
-};
-
 onMounted(() => {
-    fetchOffices();
+    useFilters.fetchTypes(),
+    useFilters.fetchSuppliers()
 });
 </script>
 

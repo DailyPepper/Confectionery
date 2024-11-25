@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import PopupAddPeople from '~/components/PopupAddPeople.vue';
-
 const isModal = ref(false)
 
 const openModal = () => {
@@ -16,7 +14,7 @@ definePageMeta({
 </script>
 
 <template>
-<PopupAddPeople v-if="isModal" :show="isModal" @update:show="isModal = false"/>
+<PopupAddTool v-if="isModal" :show="isModal" @update:show="isModal = false"/>
   <section class="container">
     <div class="result-section">
     <button class="result-btn" @click="openModal">
