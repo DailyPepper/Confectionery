@@ -1,23 +1,27 @@
 <script lang="ts" setup>
 import { useAuthStore } from '~/store/userAuth';
 
-const useAuth = useAuthStore();
+const useAuth = useAuthStore()
+const isHiding = ref(false)
 
-const isHiding = ref(false);
+useAuth.initialize()
 
 function toggleSidebar() {
-  isHiding.value = !isHiding.value;
+  isHiding.value = !isHiding.value
 }
 
 const handleExit = () => {
-  useAuth.isAuth = false
-  console.log(useAuth.isAuth);
+  useAuth.handleLogout()
 
-  navigateTo('/login');
+  navigateTo('login')
 }
 
 defineExpose({
   toggleSidebar,
+});
+
+onMounted(() => {
+  useAuth.initialize();
 });
 </script>
 

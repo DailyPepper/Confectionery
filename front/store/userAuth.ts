@@ -5,6 +5,18 @@ export const useAuthStore = defineStore("user", () => {
   const isAuth = ref(false);
   const user = ref<User | null>(null);
 
+  const initialize = () => {
+    if (typeof window !== "undefined" && localStorage) {
+      const storedUser = localStorage.getItem("user");
+      const storedAuth = localStorage.getItem("isAuth");
+
+      if (storedUser && storedAuth) {
+        user.value = JSON.parse(storedUser);
+        isAuth.value = JSON.parse(storedAuth) === true;
+      }
+    }
+  };
+
   const fetchLogin = async (userData: {
     username: string;
     password: string;
@@ -35,10 +47,26 @@ export const useAuthStore = defineStore("user", () => {
           role: response.role,
           fullName: response.fullName,
         };
+
+        if (typeof window !== "undefined" && localStorage) {
+          localStorage.setItem("user", JSON.stringify(user.value));
+          localStorage.setItem("isAuth", JSON.stringify(isAuth.value));
+        }
+
         console.log("Успешный вход!", user.value);
       }
     } catch (error) {
       console.log("Ошибка входа: ", error);
+    }
+  };
+
+  const handleLogout = () => {
+    isAuth.value = false;
+    user.value = null;
+
+    if (typeof window !== "undefined" && localStorage) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("isAuth");
     }
   };
 
@@ -60,7 +88,8 @@ export const useAuthStore = defineStore("user", () => {
         }
       );
 
-      if (response) console.log("Пользователь успешно зарегестрирован", userRegister);
+      if (response)
+        console.log("Пользователь успешно зарегестрирован", userRegister);
     } catch (error) {
       console.log("Ошибка при регистрации: ", error);
     }
@@ -71,5 +100,7 @@ export const useAuthStore = defineStore("user", () => {
     fetchRegistration,
     isAuth,
     user,
+    initialize,
+    handleLogout,
   };
 });

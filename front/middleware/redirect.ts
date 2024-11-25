@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     return navigateTo("/admin");
   }
 
-  if (!authStore.isAuth && to.path !== "/login") {
+  if (!authStore.isAuth) {
     return navigateTo("/login");
   }
 });

@@ -72,19 +72,19 @@ async function handleSubmit() {
 
       if (userStore.isAuth) {
         navigateTo('/admin')
+        resetLoginState()
       }
     } catch (error) {
       console.log('Ошибка входа');
-
-      attemptCount.value += 1;
       errorMessage.value = 'Неправильный логин или пароль';
-
-      if (attemptCount.value >= 3) {
-        blockUser();
-      }
     }
   }
-  resetLoginState();
+
+  attemptCount.value += 1;
+
+  if (attemptCount.value >= 3) {
+    blockUser();
+  }
 }
 
 function blockUser() {
@@ -94,6 +94,10 @@ function blockUser() {
 }
 
 function startTimer() {
+  if (timer !== undefined) {
+    window.clearInterval(timer);
+  }
+
   timer = window.setInterval(() => {
     if (remainingTime.value > 0) {
       remainingTime.value -= 1;
@@ -125,9 +129,6 @@ watch(isBlocked, (newVal) => {
   }
 });
 </script>
-
-
-
 
 <style scoped lang="scss">
 @use '@/assets/scss/_fonts' as *;

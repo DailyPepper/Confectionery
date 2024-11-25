@@ -3,18 +3,23 @@ import MenuLink from "@/components/MenuLink.vue";
 import { useAuthStore } from "~/store/userAuth";
 
 const useAuth = useAuthStore()
-const isHiding = ref(false);
+const isHiding = ref(false)
+
+useAuth.initialize()
 
 const hiding = () => {
   isHiding.value = !isHiding.value;
 }
 
 const handleExit = () => {
-  useAuth.isAuth = false
-  console.log(useAuth.isAuth);
+  useAuth.handleLogout()
 
   navigateTo('login')
 }
+
+onMounted(() => {
+  useAuth.initialize()
+})
 </script>
 
 <template>
