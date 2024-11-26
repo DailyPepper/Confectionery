@@ -41,15 +41,16 @@ export interface Tool {
 }
 
 export interface Toppings {
+  id: string;
   article: string;
   name: string;
-  quantity: number;
-  unit: number;
-  purchasePrice: number;
-  typeId: number;
-  supplierId: number;
-  deliveryDuration: number;
-  shelfLife: number;
+  quantity: number | null;
+  unit: number | null;
+  purchasePrice: number | null;
+  typeId: number | null;
+  supplierId: number | null;
+  deliveryDuration: number | null;
+  shelfLife: number | null;
 }
 
 export interface ToppingsTypes {

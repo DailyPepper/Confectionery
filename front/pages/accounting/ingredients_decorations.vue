@@ -18,14 +18,15 @@
             </div>
 
             <div class="filter-grid__item">
-                <button class="filter-grid__button" @click="toggleAddPopup">
+                <button class="filter-grid__button">
                     Найти
                 </button>
             </div>
         </div>
 
         <div class="table-decorations">
-            <h2 class="table-decorations__title">Результат {{ useToppings.toppings.length }} - {{ priceDecor }} руб</h2>
+            <h2 class="table-decorations__title">Результат {{ useToppings.toppings.length }} - {{
+                useToppings.toppings.reduce((acc, item) => acc + (item.purchasePrice || 0), 0).toFixed(2) }} руб</h2>
             <table class="table-decorations__table">
                 <thead>
                     <tr class="table-decorations__header-row">
@@ -41,9 +42,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in useToppings.toppings" :key="index">
+                    <tr v-for="item in useToppings.toppings" :key="item.article">
                         <td class="table-decorations__cell">
-                            <CheckboxInput :id="item.article" :value="item" v-model="selectedItems" />
+                            <CheckboxInput
+                                :id="String(item.id)"
+                                :value="item"
+                                :model-value="selectedItem?.id === item.id"
+                                @update:modelValue="toggleSelection(item, $event)"
+                            />
                         </td>
                         <td class="table-decorations__cell">{{ item.article || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.name || '—' }}</td>
@@ -64,23 +70,21 @@
                 <SvgoEdit class="action-buttons__icon" alt="Edit ingredients" filled />
                 Редактирование
             </button>
-            <button @click="confirmDeleteItems" class="action-buttons__button action-buttons__button--cancel"
-                :disabled="useAuth.user.role !== 'Директор' && useAuth.user.role !== 'Менеджер по закупкам'">
+            <button class="action-buttons__button action-buttons__button--cancel" @click="toggleDeletePopup"
+                :disabled="useAuth.user.role !== 'Директор' && useAuth.user.role !== 'Менеджер по закупкам' && !selectedItem">
                 <SvgoKrest class="action-buttons__icon" alt="Remove ingredients" filled />
                 Удалить
             </button>
         </div>
     </div>
-    <PopupEdit v-model:show="isPopupVisible" @update:show="isPopupVisible = false" />
-    <PopupAddOrder v-model:show="isPopupAddVisible" @update:show="isPopupAddVisible = false" />
-    <PopupDelete v-model:show="isPopupDeleteVisible" @confirm-delete="" @cancel="isPopupDeleteVisible = false"
-        :items="selectedItemName" />
+    <PopupEdit v-if="selectedItem" :edit-item="selectedItem" v-model:show="isPopupVisible" @update:show="isPopupVisible = false" />
+    <PopupDelete v-if="selectedItem" :delete-item="selectedItem" v-model:show="isPopupDeleteVisible" @update:show="isPopupDeleteVisible = false" />
 </template>
 
 <script setup lang="ts">
 import { useToppingsStore } from '~/store/fetchToppings';
 import { useAuthStore } from '~/store/userAuth';
-import type { TableItem } from '~/types';
+import type { Toppings } from '~/types';
 
 const useAuth = useAuthStore()
 
@@ -92,27 +96,24 @@ const useToppings = useToppingsStore()
 
 const selectedType = ref('');
 const outboundDate = ref('');
-const selectedItems = ref<TableItem[]>([]);
+const selectedItem = ref<Toppings | null>(null);
 const isPopupVisible = ref(false);
 const isPopupDeleteVisible = ref(false);
-const isPopupAddVisible = ref(false);
-const selectedItemName = ref('');
 
-const priceDecor = ref(useToppings.toppings.reduce((acc, item) => acc + (item.purchasePrice || 0), 0))
+const toggleSelection = (item: Toppings, isSelected: boolean) => {
+    if (isSelected) {
+        selectedItem.value = item;
+    } else {
+        selectedItem.value = null;
+    }
+};
 
 const togglePopup = () => {
-    isPopupVisible.value = !isPopupVisible.value;
+    if (selectedItem.value) isPopupVisible.value = true;
 };
 
-const toggleAddPopup = () => {
-    isPopupAddVisible.value = !isPopupAddVisible.value;
-};
-
-const confirmDeleteItems = () => {
-    if (selectedItems.value.length > 0) {
-        selectedItemName.value = selectedItems.value.map(item => item.name).join(', ');
-        isPopupDeleteVisible.value = true;
-    }
+const toggleDeletePopup = () => {
+    isPopupDeleteVisible.value = !isPopupDeleteVisible.value;
 };
 
 onMounted(() => {
@@ -241,11 +242,11 @@ onMounted(() => {
 }
 
 .action-buttons {
+    position: fixed;
     gap: 30px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    position: absolute;
     bottom: 10px;
     width: 1200px;
     margin: 40px auto;

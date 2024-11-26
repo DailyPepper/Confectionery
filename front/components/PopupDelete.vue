@@ -1,41 +1,19 @@
 <template>
-    <div
-        v-if="show"
-        class="fixed"
-        @click.self="closePopup"
-    >
+    <div v-if="show" class="fixed" @click.self="closePopup">
         <div class="popup">
-            <SvgoClose
-                class="popup__close"
-                @click="closePopup"
-            />
+            <SvgoClose class="popup__close" @click="closePopup" />
 
             <div class="popup__title">
                 <p class="popup__title--item">Вы уверенны, что хотите удалить</p>
-                <ul
-                    v-if="items"
-                    style="list-style: none;"
-                >
-                    <li
-                        class="popup__title--item"
-                        v-for="(item, index) in items.split(', ')"
-                        :key="index"
-                    >
-                        {{ item }}
+                <ul v-if="deleteItem?.article">
+                    <li class="popup__title--item">
+                        {{ deleteItem.name }}
                     </li>
                 </ul>
             </div>
 
-            <button
-                type="button"
-                class="popup__delete"
-                @click="confirmDelete"
-            >
-                <SvgoDelete
-                    class="popup__delete--icon"
-                    alt="Remove ingredients"
-                    filled
-                />
+            <button type="button" class="popup__delete" @click="handleDelete">
+                <SvgoDelete class="popup__delete--icon" alt="Remove ingredients" filled />
                 Удалить
             </button>
         </div>
@@ -43,17 +21,28 @@
 </template>
 
 <script lang="ts" setup>
-defineProps({
-    show: Boolean,
-    items: String,
-});
+import { useToppingsStore } from '~/store/fetchToppings';
+import type { Toppings } from '~/types';
 
+const props = defineProps<{
+    show: boolean;
+    deleteItem: Toppings | null;
+}>();
+
+const useToppings = useToppingsStore()
 const emit = defineEmits(['update:show', 'confirm-delete']);
 
-const confirmDelete = () => {
-    emit('confirm-delete');
-    emit('update:show', false);
-};
+const formData = reactive({
+    idTopping: props.deleteItem?.id || '',
+    name: props.deleteItem?.name || '',
+});
+
+const handleDelete = async () => {
+    if (props.deleteItem) {
+        await useToppings.deleteToppings(formData.idTopping);
+    }
+    closePopup();
+}
 
 const closePopup = () => {
     emit('update:show', false);

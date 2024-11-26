@@ -23,7 +23,6 @@ export const useToppingsStore = defineStore("toppings", () => {
     }
   };
 
-
   const fetchTypes = async () => {
     try {
       const response = await $fetch<ToppingsTypes[]>(
@@ -43,10 +42,70 @@ export const useToppingsStore = defineStore("toppings", () => {
     }
   };
 
+  const editToppings = async (
+    toppingData: {
+      article: string;
+      name: string;
+      quantity: number;
+      unit: number;
+      purchasePrice: number;
+      typeId: number;
+      supplierId: number;
+      deliveryDuration: number;
+      shelfLife: number;
+    },
+    idTopping: string
+  ) => {
+    try {
+      const response = await $fetch<Toppings>(
+        `http://176.124.213.100:8080/toppings/${idTopping}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(toppingData),
+        }
+      );
+
+      if (response) {
+        console.log("Топпинг успешно обновлен:", response);
+        fetchToopings();
+      }
+    } catch (error) {
+      console.log("Ошибка отправки данных: ", error);
+    }
+  };
+
+  const deleteToppings = async (idTopping: string) => {
+    try {
+      const response = await $fetch<Toppings>(
+        `http://176.124.213.100:8080/toppings/${idTopping}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      if (response) {
+        console.log("Топпинг успешно удален:", response);
+        fetchToopings();
+      }
+    } catch (error) {
+      console.log("Ошибка отправки данных: ", error);
+    }
+  };
+
   return {
     fetchToopings,
     toppings,
     fetchTypes,
-    toppingsType
+    toppingsType,
+    editToppings,
+    deleteToppings
   };
 });

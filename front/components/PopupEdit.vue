@@ -1,250 +1,127 @@
 <template>
-    <div
-        v-if="show"
-        class="fixed"
-        @click.self="closePopup"
-    >
+    <div v-if="show" class="fixed" @click.self="closePopup">
         <div class="popup">
-            <SvgoClose
-                class="popup__close"
-                @click="closePopup"
-            />
+            <SvgoClose class="popup__close" @click="closePopup" />
             <h2 class="popup__title">Редактирование</h2>
-            <form
-                class="popup__form"
-                @submit.prevent="handleSubmit"
-            >
+            <form class="popup__form" @submit.prevent="handleSubmit">
                 <section class="popup__input">
-                    <label
-                        class="popup__input--label"
-                        for="sku"
-                    >
+                    <label class="popup__input--label" for="sku">
                         Артикул:
                     </label>
-                    <input
-                        id="sku"
-                        v-model="formData.sku"
-                        class="popup__input--item"
-                        :class="{ 'popup__input--error': v$.sku.$error }"
-                        type="text"
-                        placeholder="00000000"
-                    />
-                    <p
-                        v-if="v$.sku.$error"
-                        class="popup__input--message"
-                    >
+                    <input id="sku" v-model="formData.sku" class="popup__input--item"
+                        :class="{ 'popup__input--error': v$.sku.$error }" type="text" placeholder="00000000" />
+                    <p v-if="v$.sku.$error" class="popup__input--message">
                         (Артикул обязателен)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label
-                        class="popup__input--label"
-                        for="office"
-                    >
+                    <label class="popup__input--label" for="type">
                         Тип:
                     </label>
                     <div class="popup__select">
-                        <select
-                            id="office"
-                            v-model="formData.type"
-                        >
-                            <option
-                                disabled
-                                value=""
-                            >
+                        <select id="type" v-model="formData.type">
+                            <option disabled value="">
                                 Выберите тип
                             </option>
-                            <option
-                                v-for="type in types"
-                                :key="type.id"
-                                :value="type.id"
-                                class="header__select--option"
-                            >
+                            <option v-for="type in useToppings.toppingsType" :key="type.id" :value="type.id"
+                                class="header__select--option">
                                 {{ type.name }}
                             </option>
                         </select>
                         <SvgoSelect class="popup__select--icon" />
                     </div>
-                    <p
-                        v-if="v$.type.$error"
-                        class="popup__input--message"
-                    >
+                    <p v-if="v$.type.$error" class="popup__input--message">
                         (Тип обязателен)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label
-                        class="popup__input--label"
-                        for="ingredient"
-                    >
+                    <label class="popup__input--label" for="ingredient">
                         Наименование:
                     </label>
-                    <input
-                        id="ingredient"
-                        v-model="formData.ingredient"
-                        class="popup__input--item"
-                        :class="{ 'popup__input--error': v$.ingredient.$error }"
-                        type="text"
-                        placeholder="Введите наименование ингредиента"
-                    />
-                    <p
-                        v-if="v$.ingredient.$error"
-                        class="popup__input--message"
-                    >
+                    <input id="ingredient" v-model="formData.ingredient" class="popup__input--item"
+                        :class="{ 'popup__input--error': v$.ingredient.$error }" type="text"
+                        placeholder="Введите наименование ингредиента" />
+                    <p v-if="v$.ingredient.$error" class="popup__input--message">
                         (Ингредиент обязателен)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label
-                        class="popup__input--label"
-                        for="quantity"
-                    >
+                    <label class="popup__input--label" for="quantity">
                         Количество:
                     </label>
-                    <input
-                        id="quantity"
-                        v-model="formData.quantity"
-                        class="popup__input--item"
-                        :class="{ 'popup__input--error': v$.quantity.$error }"
-                        type="number"
-                        placeholder="Введите количество"
-                    />
-                    <p
-                        v-if="v$.quantity.$error"
-                        class="popup__input--message"
-                    >
+                    <input id="quantity" v-model="formData.quantity" class="popup__input--item"
+                        :class="{ 'popup__input--error': v$.quantity.$error }" type="number"
+                        placeholder="Введите количество" />
+                    <p v-if="v$.quantity.$error" class="popup__input--message">
                         (Количество обязательно)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label
-                        class="popup__input--label"
-                        for="unit"
-                    >
+                    <label class="popup__input--label" for="unit">
                         Единицы измерения:
                     </label>
-                    <input
-                        id="unit"
-                        v-model="formData.unit"
-                        class="popup__input--item"
-                        :class="{ 'popup__input--error': v$.unit.$error }"
-                        type="text"
-                        placeholder="Введите единицы измерения"
-                    />
-                    <p
-                        v-if="v$.unit.$error"
-                        class="popup__input--message"
-                    >
+                    <input id="unit" v-model="formData.unit" class="popup__input--item"
+                        :class="{ 'popup__input--error': v$.unit.$error }" type="text"
+                        placeholder="Введите единицы измерения" />
+                    <p v-if="v$.unit.$error" class="popup__input--message">
                         (Единицы измерения обязательны)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label
-                        class="popup__input--label"
-                        for="price"
-                    >
+                    <label class="popup__input--label" for="price">
                         Закупочная цена:
                     </label>
-                    <input
-                        id="price"
-                        v-model="formData.price"
-                        class="popup__input--item"
-                        :class="{ 'popup__input--error': v$.price.$error }"
-                        type="number"
-                        placeholder="Введите цену"
-                    />
-                    <p
-                        v-if="v$.price.$error"
-                        class="popup__input--message"
-                    >
+                    <input id="price" v-model="formData.price" class="popup__input--item"
+                        :class="{ 'popup__input--error': v$.price.$error }" type="number" placeholder="Введите цену" />
+                    <p v-if="v$.price.$error" class="popup__input--message">
                         (Цена обязательна)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label
-                        class="popup__input--label"
-                        for="supplier"
-                    >
+                    <label class="popup__input--label" for="supplier">
                         Поставщик:
                     </label>
-                    <input
-                        id="supplier"
-                        v-model="formData.supplier"
-                        class="popup__input--item"
-                        :class="{ 'popup__input--error': v$.supplier.$error }"
-                        type="text"
-                        placeholder="Введите поставщика"
-                    />
-                    <p
-                        v-if="v$.supplier.$error"
-                        class="popup__input--message"
-                    >
+                    <input id="supplier" v-model="formData.supplier" class="popup__input--item"
+                        :class="{ 'popup__input--error': v$.supplier.$error }" type="text"
+                        placeholder="Введите поставщика" />
+                    <p v-if="v$.supplier.$error" class="popup__input--message">
                         (Поставщик обязателен)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label
-                        class="popup__input--label"
-                        for="deliveryDate"
-                    >
+                    <label class="popup__input--label" for="deliveryDate">
                         Дата доставки:
                     </label>
-                    <input
-                        id="deliveryDate"
-                        v-model="formData.deliveryDate"
-                        class="popup__input--item"
-                        :class="{ 'popup__input--error': v$.deliveryDate.$error }"
-                        type="date"
-                    />
-                    <p
-                        v-if="v$.deliveryDate.$error"
-                        class="popup__input--message"
-                    >
+                    <input id="deliveryDate" v-model="formData.deliveryDate" class="popup__input--item"
+                        :class="{ 'popup__input--error': v$.deliveryDate.$error }" type="date" />
+                    <p v-if="v$.deliveryDate.$error" class="popup__input--message">
                         (Дата доставки обязательна)
                     </p>
                 </section>
 
                 <section class="popup__input">
-                    <label
-                        class="popup__input--label"
-                        for="deliveryDate"
-                    >
+                    <label class="popup__input--label" for="deliveryDate">
                         Срок годности до:
                     </label>
-                    <input
-                        id="deliveryDate"
-                        v-model="formData.expirationDate"
-                        class="popup__input--item"
-                        :class="{ 'popup__input--error': v$.expirationDate.$error }"
-                        type="date"
-                    />
-                    <p
-                        v-if="v$.expirationDate.$error"
-                        class="popup__input--message"
-                    >
+                    <input id="deliveryDate" v-model="formData.expirationDate" class="popup__input--item"
+                        :class="{ 'popup__input--error': v$.expirationDate.$error }" type="date" />
+                    <p v-if="v$.expirationDate.$error" class="popup__input--message">
                         (Срок годности обязателен)
                     </p>
                 </section>
 
                 <section class="popup__buttons">
-                    <button
-                        type="submit"
-                        class="popup__buttons--save"
-                    >
+                    <button type="submit" class="popup__buttons--save">
                         Создать
                     </button>
-                    <button
-                        type="button"
-                        class="popup__buttons--cancel"
-                        @click="cancelPopup"
-                    >
+                    <button type="button" class="popup__buttons--cancel" @click="cancelPopup">
                         Отмена
                     </button>
                 </section>
@@ -255,67 +132,64 @@
 
 <script lang="ts" setup>
 import useVuelidate from '@vuelidate/core';
-import { required, email, sameAs, minLength } from '@vuelidate/validators';
+import { required, minLength } from '@vuelidate/validators';
+import { useToppingsStore } from '~/store/fetchToppings';
+import type { Toppings } from '~/types';
 
-const types = ref([
-    { id: 1, name: 'Тип 1' },
-    { id: 2, name: 'Тип 2' }
-]);
+const useToppings = useToppingsStore()
 
-defineProps({
-    show: Boolean,
-});
+const props = defineProps<{
+    show: boolean;
+    editItem: Toppings | null;
+}>();
 
-const emit = defineEmits(['update:show', 'userAdded']);
+const emit = defineEmits(['update:show', 'toppingEdited']);
 
-const formData = ref({
-    sku: '',
-    type: '',
-    ingredient: '',
-    quantity: '',
-    unit: '',
-    price: '',
-    supplier: '',
-    deliveryDate: '',
-    expirationDate: '',
+const formData = reactive({
+    idTopping: props.editItem?.id || '',
+    sku: props.editItem?.article || '',
+    type: props.editItem?.typeId || 0,
+    ingredient: props.editItem?.name || '',
+    quantity: props.editItem?.quantity || 0,
+    unit: props.editItem?.unit || 0,
+    price: props.editItem?.purchasePrice || 0,
+    supplier: props.editItem?.supplierId || 0,
+    deliveryDate: props.editItem?.deliveryDuration || 0,
+    expirationDate: props.editItem?.shelfLife || 0,
 });
 
 const rules = {
-    sku: { required, minLength: minLength(6) },
-    type: { required },
-    ingredient: { required, minLength: minLength(2) },
-    quantity: { required, minLength: minLength(1) },
-    unit: { required, minLength: minLength(1) },
-    price: { required, minLength: minLength(1) },
-    supplier: { required, minLength: minLength(2) },
-    deliveryDate: { required },
-    expirationDate: { required }
+    sku: { required, minLength: minLength(1) },
+    type: { },
+    ingredient: { required },
+    quantity: { },
+    unit: { },
+    price: { },
+    supplier: { },
+    deliveryDate: { },
+    expirationDate: { }
 };
 
 const v$ = useVuelidate(rules, formData);
 
-const resetForm = () => {
-    formData.value = {
-        sku: '',
-        type: '',
-        ingredient: '',
-        quantity: '',
-        unit: '',
-        price: '',
-        supplier: '',
-        deliveryDate: '',
-        expirationDate: ''
-    };
-    v$.value.$reset();
-};
-
-const handleSubmit = () => {
+const handleSubmit = async () => {
     v$.value.$touch()
-
     if (v$.value.$invalid) return
 
-    emit('update:show', false)
-    console.log(formData.value)
+    if (props.editItem) {
+        await useToppings.editToppings({
+            article: formData.sku,
+            typeId: formData.type,
+            name: formData.ingredient,
+            quantity: formData.quantity,
+            unit: formData.unit,
+            purchasePrice: formData.price,
+            supplierId: formData.supplier,
+            deliveryDuration: formData.deliveryDate,
+            shelfLife: formData.expirationDate,
+        }, formData.idTopping);
+    }
+    closePopup();
 }
 
 const closePopup = () => {
@@ -323,7 +197,6 @@ const closePopup = () => {
 };
 
 const cancelPopup = () => {
-    resetForm();
     closePopup();
 };
 </script>

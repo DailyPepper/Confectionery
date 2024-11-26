@@ -3,7 +3,9 @@
         <input
             type="checkbox"
             :id="id"
-            :disabled="isDisabled"
+            :value="value"
+            :checked="modelValue"
+            @change="handleChange"
         />
         <label :for="id"></label>
     </div>
@@ -15,11 +17,28 @@ defineProps({
         type: String,
         required: true,
     },
+    value: {
+        type: Object,
+        required: true,
+    },
+    modelValue: {
+        type: Boolean,
+        required: true,
+    },
     isDisabled: {
         type: Boolean,
         default: false,
     },
 });
+
+const emit = defineEmits(["update:modelValue"]);
+
+const handleChange = (event: Event) => {
+    const target = event.target as HTMLInputElement | null;
+    if (target) {
+        emit('update:modelValue', target.checked);
+    }
+};
 </script>
 
 <style scoped lang="scss">
