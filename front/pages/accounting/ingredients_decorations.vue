@@ -58,12 +58,14 @@
             </table>
         </div>
 
-        <div class="action-buttons">
-            <button class="action-buttons__button action-buttons__button--edit" @click="togglePopup">
+        <div v-if="useAuth.user" class="action-buttons">
+            <button class="action-buttons__button action-buttons__button--edit" @click="togglePopup"
+                :disabled="useAuth.user.role !== 'Директор' && useAuth.user.role !== 'Менеджер по закупкам'">
                 <SvgoEdit class="action-buttons__icon" alt="Edit ingredients" filled />
                 Редактирование
             </button>
-            <button @click="confirmDeleteItems" class="action-buttons__button action-buttons__button--cancel">
+            <button @click="confirmDeleteItems" class="action-buttons__button action-buttons__button--cancel"
+                :disabled="useAuth.user.role !== 'Директор' && useAuth.user.role !== 'Менеджер по закупкам'">
                 <SvgoKrest class="action-buttons__icon" alt="Remove ingredients" filled />
                 Удалить
             </button>
@@ -77,7 +79,10 @@
 
 <script setup lang="ts">
 import { useToppingsStore } from '~/store/fetchToppings';
+import { useAuthStore } from '~/store/userAuth';
 import type { TableItem } from '~/types';
+
+const useAuth = useAuthStore()
 
 definePageMeta({
     layout: "admin",
@@ -93,14 +98,7 @@ const isPopupDeleteVisible = ref(false);
 const isPopupAddVisible = ref(false);
 const selectedItemName = ref('');
 
-const types = [
-    { id: '1', name: 'Обычный' },
-    { id: '2', name: 'Срочный' }
-];
-
 const priceDecor = ref(useToppings.toppings.reduce((acc, item) => acc + (item.purchasePrice || 0), 0))
-
-const filteredData = ref(useToppings.toppings);
 
 const togglePopup = () => {
     isPopupVisible.value = !isPopupVisible.value;
@@ -120,6 +118,7 @@ const confirmDeleteItems = () => {
 onMounted(() => {
     useToppings.fetchToopings()
     useToppings.fetchTypes()
+    useAuth.initialize()
 })
 </script>
 
@@ -283,6 +282,11 @@ onMounted(() => {
             transition: 0.5s;
         }
 
+        &:disabled {
+            background-color: #BBB5AD;
+            cursor: not-allowed;
+        }
+
         &--cancel {
             border: 2px solid #e62734;
             background-color: #fff;
@@ -292,6 +296,11 @@ onMounted(() => {
                 border: 2px solid #cc6a6a;
                 background-color: white;
                 transition: 0.5s;
+            }
+
+            &:disabled {
+                background-color: #e1e0df;
+                cursor: not-allowed;
             }
         }
     }

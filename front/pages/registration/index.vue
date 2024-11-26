@@ -70,7 +70,7 @@ function validatePassword() {
   }
 
   if (password.value.toLowerCase().includes(username.value.toLowerCase())) {
-    passwordError.value = 'Пароль не должен содержать логин';
+    passwordError.value = 'Пароль должен содержать логин';
     return false;
   }
 

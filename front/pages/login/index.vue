@@ -7,10 +7,14 @@
           <div class="login-page__form-errors">
             <p v-if="errorMessage" class="login-page__error">{{ errorMessage }}</p>
           </div>
-          <InputWithLabel v-model="username" type="text" placeholder="Логин" class="login-page__input"
-            :class="{ 'login-page__input--error': errorMessage }" :disabled="isBlocked" />
-          <InputWithLabel v-model="password" type="password" placeholder="Пароль" class="login-page__input"
-            :class="{ 'login-page__input--error': errorMessage }" :disabled="isBlocked" />
+          <p v-if="v$.username.$error" class="login-page__error">Логин с длинной не менее 2 символов обязателен</p>
+          <InputWithLabel v-model="formData.username" type="text" placeholder="Логин" class="login-page__input"
+            :disabled="isBlocked" />
+
+          <p v-if="v$.password.$error" class="login-page__error">Пароль с длинной не менее 2 символов обязателен</p>
+          <InputWithLabel v-model="formData.password" type="password" placeholder="Пароль" class="login-page__input"
+            :disabled="isBlocked" />
+
           <button type="submit" class="login-page__button login-page__button--login" :disabled="isBlocked">
             Вход
           </button>
@@ -37,14 +41,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import useVuelidate from '@vuelidate/core';
+import { required, minLength, maxLength } from '@vuelidate/validators';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '~/store/userAuth';
 
 const userStore = useAuthStore();
 
-const username = ref('');
-const password = ref('');
+const formData = ref({
+  username: '',
+  password: '',
+})
+
 const errorMessage = ref('');
 const attemptCount = ref(0);
 const isBlocked = ref(false);
@@ -60,19 +68,35 @@ const formattedTime = computed(() => {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 });
 
+const rules = {
+  username: { required, minLength: minLength(2) },
+  password: { required, minLength: minLength(2) },
+};
+
+const v$ = useVuelidate(rules, formData);
+
 async function handleSubmit() {
+  v$.value.$touch();
+  if (v$.value.$invalid) return;
+
   if (isBlocked.value) return;
 
-  if (username.value && password.value) {
+  if (formData.value.username && formData.value.password) {
     try {
       await userStore.fetchLogin({
-        username: username.value,
-        password: password.value
+        username: formData.value.username,
+        password: formData.value.password
       })
 
-      if (userStore.isAuth) {
-        navigateTo('/admin')
+      if (userStore.isAuth && userStore.user) {
+        const role = userStore.user.role;
         resetLoginState()
+
+        if (role === "Заказчик") {
+          return navigateTo("/list-orders");
+        } else if (role !== "Директор") {
+          return navigateTo("/accounting/ingredients_decorations");
+        } else return navigateTo("/admin");
       }
     } catch (error) {
       console.log('Ошибка входа');
@@ -173,8 +197,7 @@ watch(isBlocked, (newVal) => {
     @include Comic(20px, 400);
 
     color: red;
-    margin-top: 8px;
-    text-align: left;
+    text-align: right;
   }
 
   &__button {
