@@ -39,3 +39,20 @@ export interface Tool {
   purchaseDate: string;
   quantity: number;
 }
+
+export interface Toppings {
+  article: string;
+  name: string;
+  quantity: number;
+  unit: number;
+  purchasePrice: number;
+  typeId: number;
+  supplierId: number;
+  deliveryDuration: number;
+  shelfLife: number;
+}
+
+export interface ToppingsTypes {
+  id: number;
+  name: string;
+}

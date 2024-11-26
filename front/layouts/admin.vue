@@ -14,7 +14,7 @@ const hiding = () => {
 const handleExit = () => {
   useAuth.handleLogout()
 
-  navigateTo('login')
+  window.location.href = '/login';
 }
 
 onMounted(() => {
@@ -85,6 +85,7 @@ onMounted(() => {
   &__block--name {
     @include Comic(20px, 700);
     color: #fdfeff;
+    text-align: center;
   }
 
   &_block-email {

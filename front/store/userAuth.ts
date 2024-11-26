@@ -17,6 +17,18 @@ export const useAuthStore = defineStore("user", () => {
     }
   };
 
+  const translateRole = (role: string): string => {
+    const rolesMap: Record<string, string> = {
+      CUSTOMER: "Заказчик",
+      CLIENT_MANAGER: "Менеджер по работе с клиентами",
+      PROCUREMENT_MANAGER: "Менеджер по закупкам",
+      FOREMAN: "Мастер",
+      DIRECTOR: "Директор",
+    };
+
+    return rolesMap[role];
+  };
+
   const fetchLogin = async (userData: {
     username: string;
     password: string;
@@ -44,7 +56,7 @@ export const useAuthStore = defineStore("user", () => {
         user.value = {
           id: response.id,
           username: response.username,
-          role: response.role,
+          role: translateRole(response.role),
           fullName: response.fullName,
         };
 

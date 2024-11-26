@@ -2,49 +2,30 @@
     <div class="ingredients-page">
         <div class="filter-grid">
             <div class="filter-grid__item">
-                <select
-                    id="airport-select"
-                    class="filter-grid__select"
-                    v-model="selectedType"
-                >
-                    <option
-                        disabled
-                        value=""
-                    >
+                <select id="airport-select" class="filter-grid__select" v-model="selectedType">
+                    <option disabled value="">
                         Тип
                     </option>
-                    <option
-                        v-for="type in types"
-                        :key="type.id"
-                        :value="type.id"
-                    >
+                    <option v-for="type in useToppings.toppingsType" :key="type.id" :value="type.id">
                         {{ type.name }}
                     </option>
                 </select>
             </div>
 
             <div class="filter-grid__item">
-                <input
-                    type="text"
-                    id="outbound-date"
-                    class="filter-grid__input date-input"
-                    placeholder="Введите срок годности до"
-                    v-model="outboundDate"
-                />
+                <input type="text" id="outbound-date" class="filter-grid__input date-input"
+                    placeholder="Введите срок годности до" v-model="outboundDate" />
             </div>
 
             <div class="filter-grid__item">
-                <button
-                    class="filter-grid__button"
-                    @click="toggleAddPopup"
-                >
+                <button class="filter-grid__button" @click="toggleAddPopup">
                     Найти
                 </button>
             </div>
         </div>
 
         <div class="table-decorations">
-            <h2 class="table-decorations__title">Результат {{ tableData.length }} - {{ priceDecor }} руб</h2>
+            <h2 class="table-decorations__title">Результат {{ useToppings.toppings.length }} - {{ priceDecor }} руб</h2>
             <table class="table-decorations__table">
                 <thead>
                     <tr class="table-decorations__header-row">
@@ -56,83 +37,53 @@
                         <th class="table-decorations__header-cell">Закуп. цена</th>
                         <th class="table-decorations__header-cell">Поставщик</th>
                         <th class="table-decorations__header-cell">Срок доставки</th>
-                        <th class="table-decorations__header-cell">Business Price</th>
                         <th class="table-decorations__header-cell">Срок годности</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr
-                        v-for="(item, index) in filteredData"
-                        :key="index"
-                    >
+                    <tr v-for="(item, index) in useToppings.toppings" :key="index">
                         <td class="table-decorations__cell">
-                            <CheckboxInput
-                                :id="item.article"
-                                :value="item"
-                                v-model="selectedItems"
-                            />
+                            <CheckboxInput :id="item.article" :value="item" v-model="selectedItems" />
                         </td>
                         <td class="table-decorations__cell">{{ item.article || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.name || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.quantity || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.unit || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.purchasePrice || '—' }}</td>
-                        <td class="table-decorations__cell">{{ item.supplier || '—' }}</td>
-                        <td class="table-decorations__cell">{{ item.deliveryDate || '—' }}</td>
-                        <td class="table-decorations__cell">{{ item.businessPrice || '—' }}</td>
-                        <td class="table-decorations__cell">{{ item.expiryDate || '—' }}</td>
+                        <td class="table-decorations__cell">{{ item.supplierId || '—' }}</td>
+                        <td class="table-decorations__cell">{{ item.deliveryDuration || '—' }}</td>
+                        <td class="table-decorations__cell">{{ item.shelfLife || '—' }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="action-buttons">
-            <button
-                class="action-buttons__button action-buttons__button--edit"
-                @click="togglePopup"
-            >
-                <SvgoEdit
-                    class="action-buttons__icon"
-                    alt="Edit ingredients"
-                    filled
-                />
+            <button class="action-buttons__button action-buttons__button--edit" @click="togglePopup">
+                <SvgoEdit class="action-buttons__icon" alt="Edit ingredients" filled />
                 Редактирование
             </button>
-            <button
-                @click="confirmDeleteItems"
-                class="action-buttons__button action-buttons__button--cancel"
-            >
-                <SvgoKrest
-                    class="action-buttons__icon"
-                    alt="Remove ingredients"
-                    filled
-                />
+            <button @click="confirmDeleteItems" class="action-buttons__button action-buttons__button--cancel">
+                <SvgoKrest class="action-buttons__icon" alt="Remove ingredients" filled />
                 Удалить
             </button>
         </div>
     </div>
-    <PopupEdit
-        v-model:show="isPopupVisible"
-        @update:show="isPopupVisible = false"
-    />
-    <PopupAddOrder
-        v-model:show="isPopupAddVisible"
-        @update:show="isPopupAddVisible = false"
-    />
-    <PopupDelete
-        v-model:show="isPopupDeleteVisible"
-        @confirm-delete="deleteSelectedItems"
-        @cancel="isPopupDeleteVisible = false"
-        :items="selectedItemName"
-    />
+    <PopupEdit v-model:show="isPopupVisible" @update:show="isPopupVisible = false" />
+    <PopupAddOrder v-model:show="isPopupAddVisible" @update:show="isPopupAddVisible = false" />
+    <PopupDelete v-model:show="isPopupDeleteVisible" @confirm-delete="" @cancel="isPopupDeleteVisible = false"
+        :items="selectedItemName" />
 </template>
 
 <script setup lang="ts">
+import { useToppingsStore } from '~/store/fetchToppings';
 import type { TableItem } from '~/types';
 
 definePageMeta({
     layout: "admin",
 });
+
+const useToppings = useToppingsStore()
 
 const selectedType = ref('');
 const outboundDate = ref('');
@@ -147,21 +98,9 @@ const types = [
     { id: '2', name: 'Срочный' }
 ];
 
-const tableData = ref<TableItem[]>([
-    { article: '0534318', name: 'Яйцо второй категории (45-55 гр.)', quantity: null, unit: null, purchasePrice: 42, supplier: null, deliveryDate: null, businessPrice: null, expiryDate: null },
-    { article: '00234234', name: 'Паста-пюре фрукт.КОНФРУТТИ НАТУР садов.ягоды ', quantity: 20, unit: 'кг', purchasePrice: 828, supplier: null, deliveryDate: null, businessPrice: null, expiryDate: null },
-    { article: '00544', name: 'Свеча-цифра 23046-0', quantity: 10, unit: 'шт', purchasePrice: null, supplier: null, deliveryDate: null, businessPrice: null, expiryDate: null },
-    { article: '00008518', name: 'Вафельный рожок 110 225шт.', quantity: 4, unit: 'упак', purchasePrice: null, supplier: null, deliveryDate: null, businessPrice: null, expiryDate: null },
-]);
+const priceDecor = ref(useToppings.toppings.reduce((acc, item) => acc + (item.purchasePrice || 0), 0))
 
-const priceDecor = ref(tableData.value.reduce((acc, item) => acc + (item.purchasePrice || 0), 0))
-
-const filteredData = ref(tableData.value);
-
-const handleSearch = () => {
-    console.log('Selected Type:', selectedType.value);
-    console.log('Outbound Date:', outboundDate.value);
-};
+const filteredData = ref(useToppings.toppings);
 
 const togglePopup = () => {
     isPopupVisible.value = !isPopupVisible.value;
@@ -178,11 +117,10 @@ const confirmDeleteItems = () => {
     }
 };
 
-const deleteSelectedItems = () => {
-    tableData.value = tableData.value.filter(item => !selectedItems.value.includes(item));
-    selectedItems.value = [];
-    isPopupDeleteVisible.value = false;
-};
+onMounted(() => {
+    useToppings.fetchToopings()
+    useToppings.fetchTypes()
+})
 </script>
 
 <style scoped lang="scss">
