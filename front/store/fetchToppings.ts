@@ -54,7 +54,7 @@ export const useToppingsStore = defineStore("toppings", () => {
       deliveryDuration: number;
       shelfLife: number;
     },
-    idTopping: string
+    idTopping: number
   ) => {
     try {
       const response = await $fetch<Toppings>(
@@ -78,7 +78,7 @@ export const useToppingsStore = defineStore("toppings", () => {
     }
   };
 
-  const deleteToppings = async (idTopping: string) => {
+  const deleteToppings = async (idTopping: number) => {
     try {
       const response = await $fetch<Toppings>(
         `http://176.124.213.100:8080/toppings/${idTopping}`,

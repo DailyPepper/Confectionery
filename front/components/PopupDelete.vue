@@ -39,7 +39,7 @@ const formData = reactive({
 
 const handleDelete = async () => {
     if (props.deleteItem) {
-        await useToppings.deleteToppings(formData.idTopping);
+        await useToppings.deleteToppings(Number(formData.idTopping));
     }
     closePopup();
 }

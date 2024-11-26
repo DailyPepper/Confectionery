@@ -44,12 +44,9 @@
                 <tbody>
                     <tr v-for="item in useToppings.toppings" :key="item.article">
                         <td class="table-decorations__cell">
-                            <CheckboxInput
-                                :id="String(item.id)"
-                                :value="item"
+                            <CheckboxInput :id="String(item.id)" :value="item"
                                 :model-value="selectedItem?.id === item.id"
-                                @update:modelValue="toggleSelection(item, $event)"
-                            />
+                                @update:modelValue="toggleSelection(item, $event)" />
                         </td>
                         <td class="table-decorations__cell">{{ item.article || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.name || '—' }}</td>
@@ -77,8 +74,10 @@
             </button>
         </div>
     </div>
-    <PopupEdit v-if="selectedItem" :edit-item="selectedItem" v-model:show="isPopupVisible" @update:show="isPopupVisible = false" />
-    <PopupDelete v-if="selectedItem" :delete-item="selectedItem" v-model:show="isPopupDeleteVisible" @update:show="isPopupDeleteVisible = false" />
+    <PopupEdit v-if="selectedItem" :edit-item="selectedItem" v-model:show="isPopupVisible"
+        @update:show="isPopupVisible = false" />
+    <PopupDelete v-if="selectedItem" :delete-item="selectedItem" v-model:show="isPopupDeleteVisible"
+        @update:show="isPopupDeleteVisible = false" />
 </template>
 
 <script setup lang="ts">
