@@ -14,14 +14,19 @@
           <option value="Выполнен">Выполнен</option>
           <option value="Отменен">Отменен</option>
         </select>
+
         <button v-if="isCustomer || isClientManager" class="container__button container__button--add">Добавить</button>
         <button v-if="isCustomer" class="container__button">Удалить</button>
         <button v-if="isCustomer" class="container__button">Отменить</button>
-        <button v-if="isClientManager" class="container__button container__button--manager" @click="openModal">Редактировать</button>
+        <button v-if="isClientManager" class="container__button container__button--manager" @click="openModal">
+          Редактировать
+        </button>
         <button v-if="isClientManager" class="container__button container__button--manager">Принять заказ</button>
       </div>
     </StyleBlock>
+
     <p class="container__heading">Результат</p>
+
     <table class="container__styled-table">
       <thead>
         <tr>
@@ -37,7 +42,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(order, index) in filteredOrders" :key="index">
+        <tr
+          v-for="(order, index) in filteredOrders"
+          :key="index"
+        >
           <td>
             <input
               type="radio"
@@ -71,17 +79,29 @@
         </tr>
       </tbody>
     </table>
+
     <div v-if="showModal" class="container__modal">
       <div class="container__modal-content">
         <button class="container__close-button" @click="closeModal">✖</button>
-        <h3 class="container__modal-heading">Редактирование заказа {{ selectedOrder?.number }}</h3>
+        <h3 class="container__modal-heading">
+          Редактирование заказа {{ selectedOrder?.number }}
+        </h3>
         <label class="container__modal-label">
           <p class="container__modal-label-text">Стоимость</p>
-          <input type="text" v-model="selectedOrder.price" placeholder="Введите стоимость заказа" class="container__modal-input" />
+          <input
+            type="text"
+            v-model="selectedOrder.price"
+            placeholder="Введите стоимость заказа"
+            class="container__modal-input"
+          />
         </label>
         <label class="container__modal-label">
           <p class="container__modal-label-text">Дата завершения заказа:</p>
-          <input type="text" v-model="selectedOrder.endDate" class="container__modal-input" />
+          <input
+            type="text"
+            v-model="selectedOrder.endDate"
+            class="container__modal-input"
+          />
         </label>
         <button @click="saveChanges" class="container__modal-button">Сохранить</button>
       </div>
@@ -91,13 +111,15 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useAuthStore } from "@/store/userAuth";
 
 definePageMeta({
-    layout: 'admin',
+  layout: "admin",
 });
 
-const userRole = ref('clientManager');
-const selectedStatus = ref(''); 
+const authStore = useAuthStore();
+
+const userRole = computed(() => authStore.user?.role || '');
 
 const orders = ref([
   { number: '001', date: '01.10.24', name: 'Торт "Шоколадный рай"', status: 'Новый', price: '-', client: 'Иванов И.И.', endDate: '-', manager: '-' },
@@ -105,12 +127,36 @@ const orders = ref([
   { number: '003', date: '05.10.24', name: 'Торт "Малиновый взрыв"', status: 'Производство', price: '6000', client: 'Соколова Е.С.', endDate: '15.10.24', manager: 'Сидоров А.А.' },
 ]);
 
-const isDirector = computed(() => userRole.value === 'director');
-const isCustomer = computed(() => userRole.value === 'customer');
-const isClientManager = computed(() => userRole.value === 'clientManager');
-const isProcurementManager = computed(() => userRole.value === 'procurementManager');
-const isMaster = computed(() => userRole.value === 'master');
+const roles = {
+  isDirector: 'Директор',
+  isCustomer: 'Заказчик',
+  isClientManager: 'Менеджер по работе с клиентами',
+  isProcurementManager: 'Менеджер по закупкам',
+  isMaster: 'Мастер',
+};
 
+const roleStatus = Object.fromEntries(
+  Object.entries(roles).map(([key, role]) => [
+    key,
+    computed(() => userRole.value === role),
+  ])
+);
+
+const isDirector = roleStatus.isDirector; // true, если userRole.value === 'Директор'
+
+const isCustomer = computed(() => {
+  console.log('Current user role:', userRole.value); // Логируем текущую роль
+  return userRole.value === 'Заказчик';
+});
+
+const isClientManager = roleStatus.isClientManager; // true, если userRole.value === 'Менеджер по работе с клиентами'
+const isProcurementManager = roleStatus.isProcurementManager; // true, если userRole.value === 'Менеджер по закупкам'
+const isMaster = roleStatus.isMaster; // true, если userRole.value === 'Мастер'
+
+
+
+
+const selectedStatus = ref('');
 const filteredOrders = computed(() => {
   let ordersList = orders.value;
 
@@ -155,6 +201,7 @@ function closeModal() {
   selectedOrder.value = null;
 }
 </script>
+
 
 <style scoped lang="scss">
 @use '@/assets/scss/_fonts' as *;
