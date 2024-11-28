@@ -3,8 +3,8 @@
         <div class="filter-grid">
             <div class="filter-grid__item">
                 <select id="airport-select" class="filter-grid__select" v-model="selectedType">
-                    <option value="null">
-                        Универсальный
+                    <option disabled value="">
+                        Тип
                     </option>
                     <option v-for="type in useToppings.toppingsType" :key="type.id" :value="type.id">
                         {{ type.name }}
@@ -18,8 +18,11 @@
             </div>
 
             <div class="filter-grid__item">
-                <button class="filter-grid__button" @click="filterToppings">
+                <button v-if="!isButtonClick" class="filter-grid__button" @click="filterToppings">
                     Найти
+                </button>
+                <button v-else class="filter-grid__button" @click="defaultFilter">
+                    Сброс
                 </button>
             </div>
         </div>
@@ -41,7 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in useToppings.toppings" :key="item.article">
+                    <tr v-for="item in filteredToppings" :key="item.id">
                         <td class="table-decorations__cell">
                             <CheckboxInput :id="String(item.id)" :value="item"
                                 :model-value="selectedItem?.id === item.id"
@@ -97,23 +100,43 @@ const outboundDate = ref('');
 const selectedItem = ref<Toppings | null>(null);
 const isPopupVisible = ref(false);
 const isPopupDeleteVisible = ref(false);
+const isButtonClick = ref(false);
 
 const totalItems = computed(() => filteredToppings.value.length);
 const totalCost = computed(() =>
-    filteredToppings.value.reduce((acc, item) => acc + (item.purchasePrice || 0), 0).toFixed(2)
+    filteredToppings.value.reduce((acc, item) => acc + (item.purchasePrice || 0) * (item.quantity || 0), 0).toFixed(2)
 );
 
 const filteredToppings = ref<Toppings[]>([]);
 
-const filterToppings = () => {
-    const type = selectedType.value;
-    const date = outboundDate.value;
+const defaultFilter = () => {
+    filteredToppings.value = useToppings.toppings
+    isButtonClick.value = !isButtonClick.value
+    selectedType.value = 0
+    outboundDate.value = ''
+}
 
-    filteredToppings.value = useToppings.toppings.filter((item) => {
-        const isTypeMatch = item.type.id === type;
-        const isDateMatch = item.shelfLife && item.shelfLife <= date;
-        return isTypeMatch && isDateMatch;
+const filterToppings = () => {
+    const selectedDate = new Date(outboundDate.value);
+    isButtonClick.value = !isButtonClick.value
+
+    filteredToppings.value = useToppings.toppings.filter((item: Toppings) => {
+        //@ts-ignore
+        const itemDate = new Date(item.shelfLife);
+
+        const isTypeMatch = selectedType.value
+            ? item.type?.id === selectedType.value
+            : true;
+
+        const isShelfLifeMatch = outboundDate.value
+            ? itemDate <= selectedDate
+            : true;
+
+        return isTypeMatch && isShelfLifeMatch;
     });
+
+    console.log(filteredToppings.value);
+    
 };
 
 const toggleSelection = (item: Toppings, isSelected: boolean) => {
@@ -134,7 +157,7 @@ const toggleDeletePopup = () => {
 
 onMounted(() => {
     useToppings.fetchToopings().then(() => {
-        filteredToppings.value = [...useToppings.toppings];
+        filteredToppings.value = useToppings.toppings;
     });
     useToppings.fetchTypes()
     useAuth.initialize()
