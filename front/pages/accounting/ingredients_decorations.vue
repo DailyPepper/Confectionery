@@ -3,8 +3,8 @@
         <div class="filter-grid">
             <div class="filter-grid__item">
                 <select id="airport-select" class="filter-grid__select" v-model="selectedType">
-                    <option disabled value="">
-                        Тип
+                    <option value="null">
+                        Универсальный
                     </option>
                     <option v-for="type in useToppings.toppingsType" :key="type.id" :value="type.id">
                         {{ type.name }}
@@ -18,15 +18,14 @@
             </div>
 
             <div class="filter-grid__item">
-                <button class="filter-grid__button">
+                <button class="filter-grid__button" @click="filterToppings">
                     Найти
                 </button>
             </div>
         </div>
 
         <div class="table-decorations">
-            <h2 class="table-decorations__title">Результат {{ useToppings.toppings.length }} - {{
-                useToppings.toppings.reduce((acc, item) => acc + (item.purchasePrice || 0), 0).toFixed(2) }} руб</h2>
+            <h2 class="table-decorations__title">Результат {{ totalItems }} - {{ totalCost }} руб</h2>
             <table class="table-decorations__table">
                 <thead>
                     <tr class="table-decorations__header-row">
@@ -53,7 +52,7 @@
                         <td class="table-decorations__cell">{{ item.quantity || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.unit || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.purchasePrice || '—' }}</td>
-                        <td class="table-decorations__cell">{{ item.supplierId || '—' }}</td>
+                        <td class="table-decorations__cell">{{ item.supplier || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.deliveryDuration || '—' }}</td>
                         <td class="table-decorations__cell">{{ item.shelfLife || '—' }}</td>
                     </tr>
@@ -93,11 +92,29 @@ definePageMeta({
 
 const useToppings = useToppingsStore()
 
-const selectedType = ref('');
+const selectedType = ref(0);
 const outboundDate = ref('');
 const selectedItem = ref<Toppings | null>(null);
 const isPopupVisible = ref(false);
 const isPopupDeleteVisible = ref(false);
+
+const totalItems = computed(() => filteredToppings.value.length);
+const totalCost = computed(() =>
+    filteredToppings.value.reduce((acc, item) => acc + (item.purchasePrice || 0), 0).toFixed(2)
+);
+
+const filteredToppings = ref<Toppings[]>([]);
+
+const filterToppings = () => {
+    const type = selectedType.value;
+    const date = outboundDate.value;
+
+    filteredToppings.value = useToppings.toppings.filter((item) => {
+        const isTypeMatch = item.type.id === type;
+        const isDateMatch = item.shelfLife && item.shelfLife <= date;
+        return isTypeMatch && isDateMatch;
+    });
+};
 
 const toggleSelection = (item: Toppings, isSelected: boolean) => {
     if (isSelected) {
@@ -116,7 +133,9 @@ const toggleDeletePopup = () => {
 };
 
 onMounted(() => {
-    useToppings.fetchToopings()
+    useToppings.fetchToopings().then(() => {
+        filteredToppings.value = [...useToppings.toppings];
+    });
     useToppings.fetchTypes()
     useAuth.initialize()
 })

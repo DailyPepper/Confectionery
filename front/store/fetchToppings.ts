@@ -1,4 +1,4 @@
-import type { Toppings, ToppingsTypes } from "~/types";
+import type { Supplier, Toppings, ToppingsTypes } from "~/types";
 
 export const useToppingsStore = defineStore("toppings", () => {
   const toppings = ref<Toppings[]>([]);
@@ -49,15 +49,15 @@ export const useToppingsStore = defineStore("toppings", () => {
       quantity: number;
       unit: number;
       purchasePrice: number;
-      typeId: number;
-      supplierId: number;
-      deliveryDuration: number;
-      shelfLife: number;
+      type: ToppingsTypes;
+      supplier: Supplier;
+      deliveryDuration: string;
+      shelfLife: string;
     },
     idTopping: number
   ) => {
     try {
-      const response = await $fetch<Toppings>(
+      await $fetch<Toppings>(
         `http://176.124.213.100:8080/toppings/${idTopping}`,
         {
           method: "PUT",
@@ -69,10 +69,7 @@ export const useToppingsStore = defineStore("toppings", () => {
         }
       );
 
-      if (response) {
-        console.log("Топпинг успешно обновлен:", response);
-        fetchToopings();
-      }
+      fetchToopings();
     } catch (error) {
       console.log("Ошибка отправки данных: ", error);
     }

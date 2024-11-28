@@ -1,4 +1,8 @@
+import { useToolStore } from "./fetchTool";
+
 export const useAddToolStore = defineStore("tool", () => {
+  const useTool = useToolStore();
+
   const addTool = async (toolData: {
     name: string;
     description: string;
@@ -17,6 +21,8 @@ export const useAddToolStore = defineStore("tool", () => {
         },
         body: JSON.stringify(toolData),
       });
+
+      useTool.fetchTools();
     } catch (error) {
       console.log("Ошибка добавления инструментов: ", error);
     }

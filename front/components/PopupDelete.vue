@@ -1,9 +1,19 @@
 <template>
     <div v-if="show" class="fixed" @click.self="closePopup">
-        <div class="popup">
+        <div v-if="deleteItem" class="popup">
             <SvgoClose class="popup__close" @click="closePopup" />
 
-            <div class="popup__title">
+            <div v-if="deleteItem.quantity" class="popup__title">
+                <p class="popup__title--item">Вы не можете удалить данный топпинг:</p>
+                <ul v-if="deleteItem?.article">
+                    <li class="popup__title--item">
+                        {{ deleteItem.name }}
+                    </li>
+                </ul>
+                <p class="popup__title--item">Так как количество больше нуля</p>
+            </div>
+
+            <div v-else class="popup__title">
                 <p class="popup__title--item">Вы уверенны, что хотите удалить</p>
                 <ul v-if="deleteItem?.article">
                     <li class="popup__title--item">
@@ -12,9 +22,14 @@
                 </ul>
             </div>
 
-            <button type="button" class="popup__delete" @click="handleDelete">
+            <button v-if="!deleteItem.quantity" type="button" class="popup__delete" @click="handleDelete">
                 <SvgoDelete class="popup__delete--icon" alt="Remove ingredients" filled />
                 Удалить
+            </button>
+
+            <button v-else type="button" class="popup__delete" @click="closePopup">
+                <SvgoDelete class="popup__delete--icon" alt="Remove ingredients" filled />
+                Закрыть без изменений
             </button>
         </div>
     </div>

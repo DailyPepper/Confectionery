@@ -148,12 +148,12 @@ const emit = defineEmits(['update:show', 'toppingEdited']);
 const formData = reactive({
     idTopping: props.editItem?.id || 0,
     sku: props.editItem?.article || '',
-    type: props.editItem?.typeId || null,
+    type: props.editItem?.type,
     ingredient: props.editItem?.name || '',
     quantity: props.editItem?.quantity || null,
     unit: props.editItem?.unit || null,
     price: props.editItem?.purchasePrice || null,
-    supplier: props.editItem?.supplierId || null,
+    supplier: props.editItem?.supplier,
     deliveryDate: props.editItem?.deliveryDuration || null,
     expirationDate: props.editItem?.shelfLife || null,
 });
@@ -162,12 +162,12 @@ watch(() => props.editItem, (newEditItem) => {
     if (newEditItem) {
         formData.idTopping = newEditItem.id || 0;
         formData.sku = newEditItem.article || '';
-        formData.type = newEditItem.typeId || null;
+        formData.type = newEditItem.type || null;
         formData.ingredient = newEditItem.name || '';
         formData.quantity = newEditItem.quantity || null;
         formData.unit = newEditItem.unit || null;
         formData.price = newEditItem.purchasePrice || null;
-        formData.supplier = newEditItem.supplierId || null;
+        formData.supplier = newEditItem.supplier || null;
         formData.deliveryDate = newEditItem.deliveryDuration || null;
         formData.expirationDate = newEditItem.shelfLife || null;
     }
@@ -214,22 +214,8 @@ const handleSubmit = async () => {
     closePopup();
 }
 
-const resetForm = () => {
-    formData.idTopping = 0;
-    formData.sku = '';
-    formData.type = 0;
-    formData.ingredient = '';
-    formData.quantity = 0;
-    formData.unit = 0;
-    formData.price = 0;
-    formData.supplier = 0;
-    formData.deliveryDate = 0;
-    formData.expirationDate = 0;
-};
-
 const closePopup = () => {
     emit('update:show', false);
-    resetForm()
 };
 
 const cancelPopup = () => {
