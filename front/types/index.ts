@@ -57,3 +57,25 @@ export interface ToppingsTypes {
   id: number;
   name: string;
 }
+
+export type Order = {
+  id: string;
+  number: string;
+  orderDate: string;
+  status: string;
+  product: {
+    name: string;
+    description: string;
+    height: number;
+    width: number;
+    unit: string;
+  };
+  total: number | null;
+  plannedCompletionDate: string | null;
+  customer: {
+    fullName: string;
+  };
+  manager: {
+    fullName: string;
+  };
+};
