@@ -1,4 +1,6 @@
-<script setup lang="ts">import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { saveAs } from 'file-saver';
 
 definePageMeta({
   layout: "admin",
@@ -24,6 +26,43 @@ const toggleFireExtinguisher = () => {
 };
 const toggleKub = () => {
   isKubVisible.value = !isKubVisible.value;
+};
+
+// Вычисляемая переменная для получения SVG-кода текущего типа
+const svgMap = computed(() => {
+  switch (selectedType.value) {
+    case 'type-1':
+      return `<svg width="1006" height="506" viewBox="0 0 1006 506" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 503V3H1003V503H3Z" fill="white" stroke="black" stroke-width="6"/>
+      </svg>`;
+    case 'type-2':
+      return `<svg width="1006" height="846" viewBox="0 0 1006 846" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 843V3H1003V843H3Z" fill="white" stroke="black" stroke-width="6"/>
+      </svg>`;
+    case 'type-3':
+      return `<svg width="1006" height="726" viewBox="0 0 1006 726" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M354.583 511.681V723H3V3H1003V511.681H354.583Z" fill="white" stroke="black" stroke-width="6"/>
+      </svg>`;
+    case 'type-4':
+      return `<svg width="1006" height="726" viewBox="0 0 1006 726" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M354.583 511.681V723H3V3H1003V511.681H354.583Z" fill="white" stroke="black" stroke-width="6"/>
+      </svg>`;
+    case 'type-5':
+      return `<svg width="1006" height="826" viewBox="0 0 1006 826" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M430.419 753.372V823H3V3H389.022V88.16H541.172V3H1003V823H635.796V753.372H430.419Z" fill="white" stroke="black" stroke-width="6"/>
+      </svg>`;
+    case 'type-6':
+      return `<svg width="1006" height="506" viewBox="0 0 1006 506" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 503V3H1003V503H3Z" fill="white" stroke="black" stroke-width="6"/>
+      </svg>`;
+    default:
+      return '';
+  }
+});
+
+const handleSave = () => {
+  const blob = new Blob([svgMap.value], { type: 'image/svg+xml;charset=utf-8' });
+  saveAs(blob, `type-${selectedType.value}.svg`);
 };
 </script>
 
@@ -55,39 +94,26 @@ const toggleKub = () => {
         </button>
       </div>
 
-      <button class="container__big-button">Сохранить</button>
+      <button @click="handleSave" class="container__big-button">Сохранить</button>
     </StyleBlock>
 
-
     <div v-if="selectedType === 'type-1'">
-      <svg width="1006" height="506" viewBox="0 0 1006 506" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 503V3H1003V503H3Z" fill="white" stroke="black" stroke-width="6"/>
-      </svg>
+      <div v-html="svgMap"></div>
     </div>
     <div v-if="selectedType === 'type-2'">
-      <svg width="1006" height="846" viewBox="0 0 1006 846" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 843V3H1003V843H3Z" fill="white" stroke="black" stroke-width="6"/>
-      </svg>
+      <div v-html="svgMap"></div>
     </div>
     <div v-if="selectedType === 'type-3'">
-      <svg width="1006" height="726" viewBox="0 0 1006 726" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M354.583 511.681V723H3V3H1003V511.681H354.583Z" fill="white" stroke="black" stroke-width="6"/>
-      </svg>
+      <div v-html="svgMap"></div>
     </div>
     <div v-if="selectedType === 'type-4'">
-      <svg width="1006" height="726" viewBox="0 0 1006 726" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M354.583 511.681V723H3V3H1003V511.681H354.583Z" fill="white" stroke="black" stroke-width="6"/>
-      </svg>
+      <div v-html="svgMap"></div>
     </div>
     <div v-if="selectedType === 'type-5'">
-      <svg width="1006" height="826" viewBox="0 0 1006 826" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M430.419 753.372V823H3V3H389.022V88.16H541.172V3H1003V823H635.796V753.372H430.419Z" fill="white" stroke="black" stroke-width="6"/>
-      </svg>
+      <div v-html="svgMap"></div>
     </div>
     <div v-if="selectedType === 'type-6'">
-      <svg width="1006" height="506" viewBox="0 0 1006 506" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 503V3H1003V503H3Z" fill="white" stroke="black" stroke-width="6"/>
-      </svg>
+      <div v-html="svgMap"></div>
     </div>
 
     <div class="flex">
@@ -104,8 +130,7 @@ const toggleKub = () => {
         <img src="@/assets/kub.png" alt="Kub" />
       </div>
     </div>
-    </div>
-
+  </div>
 </template>
 
 <style scoped lang="scss">
